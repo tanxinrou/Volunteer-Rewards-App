@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User Profile</title>
+    <title>Edit Store Coupon</title>
     <style>
         body {
             margin: 0;
@@ -95,20 +95,25 @@
         }
         .action-buttons {
             display: flex;
-            justify-content: space-around;
+            justify-content: center; /* Align buttons in the center */
+            gap: 20px; /* Add space between buttons */
             margin-top: 20px;
         }
-        .action-buttons button {
+        .action-buttons button, .action-buttons a {
             background-color: #ffd966;
-            color: white;
+            color: #002060;
             padding: 10px 20px;
             font-size: 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none; /* Ensure links look like buttons */
+            display: inline-block; /* Ensures consistency with button styles */
+            text-align: center;
         }
         .action-buttons .delete-btn {
             background-color: red;
+            color: white; /* Ensures contrast for accessibility */
         }
     </style>
 </head>
@@ -122,30 +127,29 @@
     <a href="events_list.html">Events</a>
     <a href="stores_list.html">Stores</a>
     <a href="adminDash.html">Dashboard</a>
-    <a href="coupon_list.html">Coupon</a>
+<a href="coupon_list.html">Coupon</a>
 </div>
 <div class="content">
     <div class="header">Edit User Profile</div>
     <div class="form-container">
         <div class="form-row">
-            <span>Store ID: John Doe</span>
-            <button><a href="add_User.html">Edit User</a></button>
+            <span>Store ID: 1234</span>
         </div>
         <div class="form-row">
-            <span>Username: 21</span>
-            <button><a href="add_User.html">Edit User</a></button>
+            <span>Title: Buy 1 get 1</span>
         </div>
         <div class="form-row">
-            <span>Email: johndoe@email.com</span>
-            <button><a href="add_User.html">Edit User</a></button>
+            <span>Description</span>
         </div>
         <div class="form-row">
-            <span>Password: 60</span>
-            <button><a href="add_User.html">Edit User</a></button>    </div>
+            <span>Quantity</span>
+        </div>
     </div>
     <div class="action-buttons">
-        <button class="delete-btn"><a href="stores_list.html">Delete User</a></button>
-        <button><a href="stores_list.html">Finish</a></button>  </div>
+        <a class="delete-btn" href="coupon_list.html">Delete Coupon</a>
+        <a href="coupon_list.html">Finish</a>
+        <a href="add_Coupon.html">Edit Coupon</a>
+    </div>
 </div>
 </body>
 </html>

@@ -46,6 +46,7 @@
             border-radius: 10px;
             overflow: hidden;
             text-align: center;
+            cursor: pointer;
         }
         .coupon-card img {
             width: 100%;
@@ -63,11 +64,10 @@
         <div class="navbar-brand">
             <div style="display: flex; align-items: center;">
                 <div style="width: 50px; height: 50px; background-color: #102042; border-radius: 50%;"></div>
-
             </div>
         </div>
         <div>
-            <a class="btn me-2" style="background-color: #E8C766;" href="#">My Points</a>
+            <a class="btn me-2" style="background-color: #E8C766;" href="MyPoint.html">My Points</a>
             <a class="btn me-2" style="background-color: #E8C766;" href="#">Events</a>
             <a class="btn " style="background-color: #E8C766;" href="#">My Profile</a>
         </div>
@@ -97,7 +97,7 @@
         <h4>Coupon:</h4>
         <div class="row">
             <div class="col-md-4">
-                <div class="coupon-card">
+                <div class="coupon-card" data-bs-toggle="modal" data-bs-target="#couponModal">
                     <img src="" alt="BreadTalk">
                     <div class="card-body">
                         <p>1 for 1 BreadTalk</p>
@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="coupon-card">
+                <div class="coupon-card" data-bs-toggle="modal" data-bs-target="#couponModal">
                     <img src="" alt="Donations">
                     <div class="card-body">
                         <p>A Brighter Future: Join Us in Giving</p>
@@ -115,13 +115,32 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="coupon-card">
+                <div class="coupon-card" data-bs-toggle="modal" data-bs-target="#couponModal">
                     <img src="" alt="FairPrice">
                     <div class="card-body">
                         <p>$5 NTUC Voucher</p>
                         <p>3000 Reward Points</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="couponModalLabel">Coupon Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="form-control" rows="4" placeholder="Enter description here..."></h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Redeem</button>
             </div>
         </div>
     </div>

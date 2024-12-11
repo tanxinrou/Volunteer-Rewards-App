@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit User Profile</title>
+  <title>Add User</title>
   <style>
     body {
       margin: 0;
@@ -81,40 +81,36 @@
       align-items: center;
       margin-bottom: 15px;
     }
-    .form-row span {
+    .form-row label {
       font-size: 14px;
+      flex: 1;
     }
-    .form-row button {
+    .form-row input {
+      flex: 2;
+      padding: 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 3px;
       background-color: #ffd966;
       color: #002060;
-      border: none;
-      padding: 5px 10px;
-      font-size: 12px;
-      border-radius: 3px;
-      cursor: pointer;
     }
-    .action-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 20px;
-    }
-    .action-buttons button {
+    .form-container button {
+      display: block;
+      width: 100%;
       background-color: #ffd966;
       color: white;
-      padding: 10px 20px;
-      font-size: 14px;
       border: none;
+      padding: 10px;
+      font-size: 14px;
       border-radius: 5px;
       cursor: pointer;
-    }
-    .action-buttons .delete-btn {
-      background-color: red;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 <div class="navbar">
-  <span>Edit User Profile</span>
+  <span>Add User</span>
   <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
@@ -125,27 +121,27 @@
   <a href="coupon_list.html">Coupon</a>
 </div>
 <div class="content">
-  <div class="header">Edit User Profile</div>
+  <div class="header">Add Coupon</div>
   <div class="form-container">
-    <div class="form-row">
-      <span>Name: John Doe</span>
-      <button><a href="add_User.html">Edit User</a></button>
-    </div>
-    <div class="form-row">
-      <span>Age: 21</span>
-      <button><a href="add_User.html">Edit User</a></button>
-    </div>
-    <div class="form-row">
-      <span>Email: johndoe@email.com</span>
-      <button><a href="add_User.html">Edit User</a></button>
-    </div>
-    <div class="form-row">
-      <span>Points: 60</span>
-      <button><a href="add_User.html">Edit User</a></button>    </div>
+    <form action="#" method="POST">
+      <div class="form-row">
+        <label for="name">Coupon ID:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-row">
+        <label for="user">Coupon Title:</label>
+        <input type="text" id="user" name="user" required>
+      </div>
+      <div class="form-row">
+        <label for="email">Coupon Description:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="action-buttons">
+        <button class="add">Add Coupon</button>
+        <button><a href="events_list.html">Finish</a></button>
+      </div>
+    </form>
   </div>
-  <div class="action-buttons">
-    <button class="delete-btn"><a href="user_list.html">Delete User</a></button>
-    <button><a href="user_list.html">Finish</a></button>  </div>
 </div>
 </body>
 </html>
