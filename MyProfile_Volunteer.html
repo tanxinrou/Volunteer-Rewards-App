@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E6E6DC;
+        }
+        .navbar {
+            background-color: #002060;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            padding: 35px;
+            align-items: center;
+        }
+        .form-container {
+            background-color: #003d99;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            margin: auto;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-row label {
+            font-size: 14px;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg p-3">
+    <div class="container-fluid">
+        <div class="navbar-brand">
+            <div style="display: flex; align-items: center;">
+                <div style="width: 50px; height: 50px; background-color: #102042; border-radius: 50%;"></div>
+            </div>
+        </div>
+        <div>
+            <a class="btn me-2" style="background-color: #E8C766;" href="MyPoint.html">My Points</a>
+            <a class="btn me-2" style="background-color: #E8C766;" href="Join_Event.html">Events</a>
+            <a class="btn" style="background-color: #E8C766;" href="myProfile (Volunteer).html">My Profile</a>
+        </div>
+    </div>
+</nav>
+<div class="content">
+    <br>
+    <div class="form-container">
+        <div class="form-row">
+          <label for="name">Name: John Doe</label>
+        </div>
+        <div class="form-row">
+          <label for="age">Age: 21</label>
+        </div>
+        <div class="form-row">
+          <label for="email">Email: johndoe@email.com</label>
+        </div>
+        <div class="form-row">
+            <label for="events">No. of Events Joined: 4</label>
+        </div>
+    </div>
+  </div>
+</body>
+</html>  
