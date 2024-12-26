@@ -49,8 +49,90 @@ $result = $conn->query($sql);
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
-        .navbar, .sidebar, .content, .table, .form-container {
-            /* Styles reused from the provided HTML files */
+        .navbar {
+            background-color: #002060;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            padding: 0 20px;
+        }
+        .sidebar {
+            background-color: #002060;
+            width: 150px;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar button {
+            background-color: #ffd966;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            color: #002060;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #002060;
+        }
+        .content {
+            margin-left: 170px;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input, .form-container select, .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background-color: #ffd966;
+            color: #002060;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            text-align: left;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .table th {
+            background-color: #003d99;
+            color: white;
+        }
+        .table tr {
+            background-color: #003d99;
+            color: white;
+            border-bottom: 1px solid white;
         }
     </style>
 </head>
@@ -59,11 +141,11 @@ $result = $conn->query($sql);
     <span>User Management</span>
 </div>
 <div class="sidebar">
-    <button><a href="#">Users</a></button>
-    <button><a href="#">Events</a></button>
-    <button><a href="#">Stores</a></button>
-    <button><a href="#">Dashboard</a></button>
-    <button><a href="#">Coupon</a></button>
+    <button><a href="user_list.html">Users</a></button>
+    <button><a href="events_list.html">Events</a></button>
+    <button><a href="stores_list.html">Stores</a></button>
+    <button><a href="adminDash.html">Dashboard</a></button>
+    <button><a href="coupon_list.html">Coupon</a></button>
 </div>
 <div class="content">
     <!-- Form to Add User -->
@@ -90,7 +172,7 @@ $result = $conn->query($sql);
 
     <!-- Display User List -->
     <h2>User List</h2>
-    <table border="1" class="table">
+    <table class="table">
         <thead>
         <tr>
             <th>UserID</th>
