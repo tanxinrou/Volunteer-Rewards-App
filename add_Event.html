@@ -39,72 +39,71 @@
       padding-top: 20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
-    .sidebar a {
-      display: block;
+    .sidebar button {
       background-color: #ffd966;
-      text-decoration: none;
+      border: none;
       padding: 10px;
-      color: #002060;
+      width: 100%;
+      text-align: left;
       font-size: 14px;
       font-weight: bold;
+      color: #002060;
       margin-bottom: 10px;
+      cursor: pointer;
       border-radius: 0 5px 5px 0;
-      transition: background-color 0.3s;
-    }
-    .sidebar a:hover {
-      background-color: #e6c557;
     }
     .content {
       margin-left: 170px;
       padding: 20px;
     }
     .header {
-      font-size: 18px;
-      font-weight: bold;
-      background-color: #003d99;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-container {
-      background-color: #003d99;
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-      width: 50%;
-      margin: auto;
-    }
-    .form-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-    .form-row label {
+    .header input {
+      padding: 8px;
       font-size: 14px;
-      flex: 1;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    .form-row input {
-      flex: 2;
-      padding: 5px;
-      font-size: 14px;
-      border: none;
-      border-radius: 3px;
-      background-color: #ffd966;
-      color: #002060;
-    }
-    .form-container button {
-      display: block;
-      width: 100%;
+    .header button {
       background-color: #ffd966;
       color: white;
+      padding: 10px 20px;
       border: none;
-      padding: 10px;
-      font-size: 14px;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
+      font-size: 14px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th, .table td {
+      text-align: left;
+      padding: 10px;
+      font-size: 14px;
+    }
+    .table th {
+      background-color: #003d99;
+      color: white;
+    }
+    .table tr {
+      background-color: #003d99;
+      color: white;
+      border-bottom: 1px solid white;
+    }
+    .table .edit-btn {
+      background-color: #ffd966;
+      color: #002060;
+      padding: 5px 10px;
+      font-size: 12px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
     }
   </style>
 </head>

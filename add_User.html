@@ -17,19 +17,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
-      color: white;
-    }
-    .menu-icon {
-      width: 30px;
-      height: 30px;
-      background-color: white;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
     }
     .sidebar {
       background-color: #002060;
@@ -39,72 +26,62 @@
       padding-top: 20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
-    .sidebar a {
-      display: block;
+    .sidebar button {
       background-color: #ffd966;
-      text-decoration: none;
+      border: none;
       padding: 10px;
-      color: #002060;
+      width: 100%;
+      text-align: left;
       font-size: 14px;
       font-weight: bold;
+      color: #002060;
       margin-bottom: 10px;
+      cursor: pointer;
       border-radius: 0 5px 5px 0;
-      transition: background-color 0.3s;
-    }
-    .sidebar a:hover {
-      background-color: #e6c557;
     }
     .content {
       margin-left: 170px;
       padding: 20px;
     }
-    .header {
-      font-size: 18px;
-      font-weight: bold;
-      background-color: #003d99;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
     .form-container {
-      background-color: #003d99;
-      color: white;
+      background-color: white;
       padding: 20px;
-      border-radius: 8px;
-      width: 50%;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
       margin: auto;
     }
-    .form-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .form-row label {
-      font-size: 14px;
-      flex: 1;
-    }
-    .form-row input {
-      flex: 2;
-      padding: 5px;
-      font-size: 14px;
-      border: none;
-      border-radius: 3px;
-      background-color: #ffd966;
+    .form-container h2 {
       color: #002060;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     .form-container button {
-      display: block;
-      width: 100%;
       background-color: #ffd966;
-      color: white;
+      color: #002060;
+      padding: 10px 20px;
       border: none;
-      padding: 10px;
-      font-size: 14px;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
+      font-size: 14px;
+      display: block;
+      width: 100%;
+    }
+    .form-container button:hover {
+      background-color: #f0c94d;
     }
   </style>
 </head>
@@ -114,33 +91,46 @@
   <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
-  <a href="user_list.html">Users</a>
-  <a href="events_list.html">Events</a>
-  <a href="stores_list.html">Stores</a>
-  <a href="adminDash.html">Dashboard</a>
-  <a href="coupon_list.html">Coupon</a>
+  <button><a href="user_list.html">Users</a></button>
+  <button><a href="events_list.html">Events</a></button>
+  <button><a href="stores_list.html">Stores</a></button>
+  <button><a href="adminDash.html">Dashboard</a></button>
+  <button><a href="coupon_list.html">Coupon</a></button>
 </div>
 <div class="content">
-  <div class="header">Add User</div>
   <div class="form-container">
-    <form action="#" method="POST">
-      <div class="form-row">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+    <h2>Add New User</h2>
+    <form action="add_user.php" method="POST">
+      <label for="userType">User Type:</label>
+      <select id="userType" name="userType" required>
+          <option value="Volunteer">Volunteer</option>
+          <option value="StoreAdmin">Store Admin</option>
+          <option value="SiteAdmin">Site Admin</option>
+      </select>
+  
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="Username" required>
+  
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="Email" required>
+  
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="Password" required>
+  
+      <div id="volunteerFields" class="userFields">
+          <label for="points">Points:</label>
+          <input type="number" id="points" name="Points" min="0">
       </div>
-      <div class="form-row">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required>
+      <div id="storeAdminFields" class="userFields" style="display:none;">
+          <label for="storeName">Store Name:</label>
+          <input type="text" id="storeName" name="StoreName">
+  
+          <label for="storeAddress">Store Address:</label>
+          <input type="text" id="storeAddress" name="StoreAddress">
       </div>
-      <div class="form-row">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="action-buttons">
-        <button class="add">Add User</button>
-        <button><a href="user_list.html">Finish</a></button>
-  </div>
-    </form>
+  
+      <button type="submit"><a href="">Add User</a></button>
+  </form>  
   </div>
 </div>
 </body>

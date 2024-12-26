@@ -17,19 +17,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
       color: white;
-    }
-    .menu-icon {
-      width: 30px;
-      height: 30px;
-      background-color: white;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 0 20px;
     }
     .sidebar {
       background-color: #002060;
@@ -52,6 +41,10 @@
       cursor: pointer;
       border-radius: 0 5px 5px 0;
     }
+    .sidebar a {
+      text-decoration: none;
+      color: #002060;
+    }
     .content {
       margin-left: 170px;
       padding: 20px;
@@ -62,12 +55,13 @@
       align-items: center;
       margin-bottom: 20px;
     }
-    .header input {
+    .header input, .header select {
       padding: 8px;
       font-size: 14px;
       width: 200px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      margin-right: 10px;
     }
     .header button {
       background-color: #ffd966;
@@ -110,7 +104,6 @@
 <body>
 <div class="navbar">
   <span>User Management</span>
-  <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
   <button><a href="user_list.html">Users</a></button>
@@ -122,55 +115,63 @@
 <div class="content">
   <div class="header">
     <input type="text" placeholder="Search">
-    <button><a href="add_User.html">Add User</a></button>  </div>
+    <select id="userTypeFilter" onchange="filterUsers()">
+      <option value="">All User Types</option>
+      <option value="Volunteer">Volunteer</option>
+      <option value="StoreAdmin">Store Admin</option>
+      <option value="SiteAdmin">Site Admin</option>
+    </select>
+    <button><a href="add_User.html">Add User</a></button>
+  </div>
   <table class="table">
     <thead>
     <tr>
-      <th>Name:</th>
-      <th>Age:</th>
-      <th>Email:</th>
-      <th>Points:</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Email</th>
+      <th>Points</th>
+      <th>User Type</th>
       <th>Action</th>
     </tr>
     </thead>
-    <tbody>
-    <tr>
+    <tbody id="userTable">
+    <tr data-usertype="Volunteer">
       <td>John Doe</td>
       <td>21</td>
       <td>johndoe@email.com</td>
       <td>60</td>
+      <td>Volunteer</td>
       <td><button><a href="edit_User.html">Edit User</a></button></td>
     </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
+    <tr data-usertype="StoreAdmin">
+      <td>Jane Smith</td>
+      <td>30</td>
+      <td>janesmith@email.com</td>
+      <td>100</td>
+      <td>Store Admin</td>
       <td><button><a href="edit_User.html">Edit User</a></button></td>
     </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_User.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_User.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
+    <tr data-usertype="SiteAdmin">
+      <td>Mary Johnson</td>
+      <td>25</td>
+      <td>maryj@email.com</td>
+      <td>200</td>
+      <td>Site Admin</td>
       <td><button><a href="edit_User.html">Edit User</a></button></td>
     </tr>
     </tbody>
   </table>
 </div>
+
+<script>
+  function filterUsers() {
+    const filter = document.getElementById('userTypeFilter').value.toLowerCase();
+    const rows = document.querySelectorAll('#userTable tr');
+    rows.forEach(row => {
+      const userType = row.getAttribute('data-usertype').toLowerCase();
+      row.style.display = (filter === '' || userType === filter) ? '' : 'none';
+    });
+  }
+</script>
 </body>
 </html>
