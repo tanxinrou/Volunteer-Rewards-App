@@ -169,36 +169,6 @@ $result = $conn->query($sql);
             <button type="submit">Add User</button>
         </form>
     </div>
-
-    <!-- Display User List -->
-    <h2>User List</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>UserID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['UserID'] . "</td>";
-                echo "<td>" . $row['Username'] . "</td>";
-                echo "<td>" . $row['Email'] . "</td>";
-                echo "<td>" . $row['Points'] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='4'>No users found</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
 

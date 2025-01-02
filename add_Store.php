@@ -162,36 +162,6 @@ $result = $conn->query($sql);
             <button type="submit">Add Store Admin</button>
         </form>
     </div>
-
-    <!-- Display Store Admin List -->
-    <h2>Store Admin List</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>StoreAdminID</th>
-            <th>StoreID</th>
-            <th>Username</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['StoreAdminID'] . "</td>";
-                echo "<td>" . $row['StoreID'] . "</td>";
-                echo "<td>" . $row['Username'] . "</td>";
-                echo "<td>" . $row['Email'] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='4'>No store admins found</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
 

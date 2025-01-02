@@ -155,16 +155,5 @@
     </tbody>
   </table>
 </div>
-
-<script>
-  function filterUsers() {
-    const filter = document.getElementById('userTypeFilter').value.toLowerCase();
-    const rows = document.querySelectorAll('#userTable tr');
-    rows.forEach(row => {
-      const userType = row.getAttribute('data-usertype').toLowerCase();
-      row.style.display = (filter === '' || userType === filter) ? '' : 'none';
-    });
-  }
-</script>
 </body>
 </html>
