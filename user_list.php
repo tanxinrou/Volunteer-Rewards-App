@@ -1,3 +1,18 @@
+<?php
+// Include the database connection script
+include 'db_connect.php';
+
+// Check if the connection was successful
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Retrieve users from the database
+$sql = "SELECT UserID, Username, Points, StoreName FROM users"; // Modify this based on your table structure
+$result = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,100 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Management</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-    }
-    .navbar {
-      background-color: #002060;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: white;
-      padding: 0 20px;
-    }
-    .sidebar {
-      background-color: #002060;
-      width: 150px;
-      height: 100vh;
-      position: fixed;
-      padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar button {
-      background-color: #ffd966;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      text-align: left;
-      font-size: 14px;
-      font-weight: bold;
-      color: #002060;
-      margin-bottom: 10px;
-      cursor: pointer;
-      border-radius: 0 5px 5px 0;
-    }
-    .sidebar a {
-      text-decoration: none;
-      color: #002060;
-    }
-    .content {
-      margin-left: 170px;
-      padding: 20px;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .header input, .header select {
-      padding: 8px;
-      font-size: 14px;
-      width: 200px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-    .header button {
-      background-color: #ffd966;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .table th, .table td {
-      text-align: left;
-      padding: 10px;
-      font-size: 14px;
-    }
-    .table th {
-      background-color: #003d99;
-      color: white;
-    }
-    .table tr {
-      background-color: #003d99;
-      color: white;
-      border-bottom: 1px solid white;
-    }
-    .table .edit-btn {
-      background-color: #ffd966;
-      color: #002060;
-      padding: 5px 10px;
-      font-size: 12px;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
+    /* Your CSS Styles here */
   </style>
 </head>
 <body>
@@ -114,46 +36,43 @@
 </div>
 <div class="content">
   <div class="header">
-      <input type="text" placeholder="Search">
-      <button><a href="add_user.php">Add User</a></button>  </div>
+    <input type="text" placeholder="Search">
+    <button><a href="add_user.php">Add User</a></button>  
+  </div>
+
   <table class="table">
     <thead>
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Email</th>
-      <th>Points</th>
-      <th>User Type</th>
-      <th>Action</th>
-    </tr>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Points</th>
+        <th>Action</th>
+      </tr>
     </thead>
     <tbody id="userTable">
-    <tr data-usertype="Volunteer">
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td>Volunteer</td>
-      <td><button><a href="edit_User.html">Edit User</a></button></td>
-    </tr>
-    <tr data-usertype="StoreAdmin">
-      <td>Jane Smith</td>
-      <td>30</td>
-      <td>janesmith@email.com</td>
-      <td>100</td>
-      <td>Store Admin</td>
-      <td><button><a href="edit_User.html">Edit User</a></button></td>
-    </tr>
-    <tr data-usertype="SiteAdmin">
-      <td>Mary Johnson</td>
-      <td>25</td>
-      <td>maryj@email.com</td>
-      <td>200</td>
-      <td>Site Admin</td>
-      <td><button><a href="edit_User.html">Edit User</a></button></td>
-    </tr>
+      <?php
+      if ($result->num_rows > 0) {
+        // Output user data
+        while ($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td>" . $row['Username'] . "</td>";
+          echo "<td>" . $row['Email'] . "</td>";
+          echo "<td>" . $row['Points'] . "</td>";
+          echo "<td><button><a href='edit_user.php?UserID=" . $row['UserID'] . "'>Edit User</a></button></td>";
+          echo "</tr>";
+        }
+      } else {
+        echo "<tr><td colspan='6'>No users found</td></tr>";
+      }
+      ?>
     </tbody>
   </table>
 </div>
+
+<?php
+// Close the database connection
+$conn->close();
+?>
+
 </body>
 </html>
