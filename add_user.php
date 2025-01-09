@@ -2,22 +2,25 @@
 // Include the database connection script
 include 'db_connect.php';
 
-// Check if connection was successful
+// Check if the connection was successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
 // Add a user if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Collect form data
     $userType = $_POST['userType'];
     $username = $_POST['Username'];
     $email = $_POST['Email'];
     $password = $_POST['Password'];
     $points = isset($_POST['Points']) ? $_POST['Points'] : null;
 
-    // Insert user data into the database
+    // Prepare SQL statement to insert user data into the database
     $stmt = $conn->prepare("INSERT INTO users (UserType, Username, Email, Password, Points) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssi", $userType, $username, $email, $password, $points);
+    
+    // Execute the query and handle success/error
     if ($stmt->execute()) {
         echo "<p>User added successfully!</p>";
     } else {
@@ -26,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
 }
 
-// Retrieve users
+// Retrieve users from the database
 $sql = "SELECT UserID, Username, Email, Points FROM users";
 $result = $conn->query($sql);
 ?>
