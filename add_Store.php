@@ -48,15 +48,6 @@ $result = $conn->query($sql);
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
-        .navbar {
-            background-color: #002060;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: white;
-            padding: 0 20px;
-        }
         .sidebar {
             background-color: #002060;
             width: 150px;
