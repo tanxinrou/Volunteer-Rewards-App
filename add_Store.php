@@ -1,15 +1,6 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ga_rewardsapp";
-
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection script
+include 'db_connect.php';
 
 // Add a store admin if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -32,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Retrieve store admins
 $sql = "SELECT StoreAdminID, StoreID, Username, Email FROM store_admins";
 $result = $conn->query($sql);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,15 +38,6 @@ $result = $conn->query($sql);
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-        }
-        .navbar {
-            background-color: #002060;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: white;
-            padding: 0 20px;
         }
         .sidebar {
             background-color: #002060;
@@ -140,10 +122,10 @@ $result = $conn->query($sql);
     <span>Store Admin Management</span>
 </div>
 <div class="sidebar">
-    <button><a href="user_list.html">Users</a></button>
-    <button><a href="events_list.html">Events</a></button>
-    <button><a href="stores_list.html">Stores</a></button>
-    <button><a href="adminDash.html">Dashboard</a></button>
+    <button><a href="user_list.php">Users</a></button>
+    <button><a href="events_list.php">Events</a></button>
+    <button><a href="stores_list.php">Stores</a></button>
+    <button><a href="adminDash.php">Dashboard</a></button>
     <button><a href="coupon_list.html">Coupon</a></button>
 </div>
 <div class="content">
@@ -162,36 +144,6 @@ $result = $conn->query($sql);
             <button type="submit">Add Store Admin</button>
         </form>
     </div>
-
-    <!-- Display Store Admin List -->
-    <h2>Store Admin List</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>StoreAdminID</th>
-            <th>StoreID</th>
-            <th>Username</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['StoreAdminID'] . "</td>";
-                echo "<td>" . $row['StoreID'] . "</td>";
-                echo "<td>" . $row['Username'] . "</td>";
-                echo "<td>" . $row['Email'] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='4'>No store admins found</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
 

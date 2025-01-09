@@ -104,37 +104,71 @@
 <body>
 <div class="navbar">
     <span>Edit User Profile</span>
-    <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
-    <a href="user_list.html">Users</a>
-    <a href="events_list.html">Events</a>
-    <a href="stores_list.html">Stores</a>
-    <a href="adminDash.html">Dashboard</a>
-    <a href="coupon_list.html">Coupon</a>
+    <a href="user_list.php">Users</a>
+    <a href="events_list.php">Events</a>
+    <a href="stores_list.php">Stores</a>
+    <a href="adminDash.php">Dashboard</a>
+    <a href="coupon_list.php">Coupon</a>
 </div>
 <div class="content">
     <div class="header">Edit User Profile</div>
+
+    <?php
+    // Database connection
+    $conn = new mysqli('localhost', 'root', '', 'store_db');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Get user ID from URL
+    $userId = $_GET['id'];
+    
+    // Fetch user data
+    $sql = "SELECT * FROM users WHERE id = $userId";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    ?>
+
     <div class="form-container">
         <div class="form-row">
-            <span>Name: John Doe</span>
-            <button><a href="add_Event.html">Edit User</a></button>
+            <span>Name: <?php echo htmlspecialchars($row['name']); ?></span>
+            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
         </div>
         <div class="form-row">
-            <span>Age: 21</span>
-            <button><a href="add_Event.html">Edit User</a></button>
+            <span>Age: <?php echo htmlspecialchars($row['age']); ?></span>
+            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
         </div>
         <div class="form-row">
-            <span>Email: johndoe@email.com</span>
-            <button><a href="add_Event.html">Edit User</a></button>
+            <span>Email: <?php echo htmlspecialchars($row['email']); ?></span>
+            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
         </div>
         <div class="form-row">
-            <span>Points: 60</span>
-            <button><a href="add_Event.html">Edit User</a></button>    </div>
+            <span>Points: <?php echo htmlspecialchars($row['points']); ?></span>
+            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
+        </div>
     </div>
+
     <div class="action-buttons">
-        <button class="delete-btn"><a href="events_list.html">Delete User</a></button>
-        <button><a href="events_list.html">Finish</a></button>  </div>
+        <button class="delete-btn">
+            <a href="delete_user.php?id=<?php echo $userId; ?>" style="color: white;">Delete User</a>
+        </button>
+        <button>
+            <a href="user_list.php" style="color: white;">Finish</a>
+        </button>
+    </div>
+
+    <?php
+    } else {
+        echo "<p style='text-align: center;'>User not found.</p>";
+    }
+
+    $conn->close();
+    ?>
+
 </div>
 </body>
 </html>

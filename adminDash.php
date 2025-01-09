@@ -76,10 +76,10 @@
         <div class="menu-icon">≡</div>
     </div>
     <div class="sidebar">
-        <a href="user_list.html">Users</a>     
-        <a href="events_list.html">Events</a>      
-        <a href="stores_list.html">Stores</a>   
-        <a href="adminDash.html">Dashboard</a>
+        <a href="user_list.php">Users</a>     
+        <a href="events_list.php">Events</a>      
+        <a href="stores_list.php">Stores</a>   
+        <a href="adminDash.php">Dashboard</a>
         <a href="coupon_list.html">Coupon</a>
     </div>
     <div class="content">

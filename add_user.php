@@ -1,27 +1,26 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ga_rewardsapp";
+// Include the database connection script
+include 'db_connect.php';
 
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if the connection was successful
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 // Add a user if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userType = $_POST['userType'];
+    // Collect form data
     $username = $_POST['Username'];
-    $email = $_POST['Email'];
-    $password = $_POST['Password'];
-    $points = isset($_POST['Points']) ? $_POST['Points'] : null;
+    $passwordHash = password_hash($_POST['Password'], PASSWORD_DEFAULT); // Hash the password
+    $points = $_POST['Points'] ?? 0; // Default to 0 points if not provided
+    $storeName = $_POST['StoreName'] ?? null; // If the Store Name is provided
+    $storeAddress = $_POST['StoreAddress'] ?? null; // If the Store Address is provided
 
-    // Insert user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (UserType, Username, Email, Password, Points) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $userType, $username, $email, $password, $points);
+    // Prepare SQL statement to insert user data into the database
+    $stmt = $conn->prepare("INSERT INTO users (Username, PasswordHash, Points, StoreName, StoreAddress) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $passwordHash, $points, $storeName, $storeAddress);
+    
+    // Execute the query and handle success/error
     if ($stmt->execute()) {
         echo "<p>User added successfully!</p>";
     } else {
@@ -30,10 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
 }
 
-// Retrieve users
-$sql = "SELECT UserID, Username, Email, Points FROM users";
+// Retrieve users from the database (not being used in this case but might be useful later)
+$sql = "SELECT UserID, Username, Points, StoreName FROM users";
 $result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -135,73 +133,48 @@ $result = $conn->query($sql);
             border-bottom: 1px solid white;
         }
     </style>
+    </style>
 </head>
 <body>
-<div class="navbar">
-    <span>User Management</span>
-</div>
-<div class="sidebar">
-    <button><a href="user_list.html">Users</a></button>
-    <button><a href="events_list.html">Events</a></button>
-    <button><a href="stores_list.html">Stores</a></button>
-    <button><a href="adminDash.html">Dashboard</a></button>
-    <button><a href="coupon_list.html">Coupon</a></button>
-</div>
-<div class="content">
-    <!-- Form to Add User -->
-    <div class="form-container">
-        <h2>Add New User</h2>
+    <div class="navbar">
+        <span>User Management</span>
+    </div>
+    
+    <div class="sidebar">
+        <button><a href="user_list.php">Users</a></button>
+        <button><a href="events_list.php">Events</a></button>
+        <button><a href="stores_list.php">Stores</a></button>
+        <button><a href="adminDash.php">Dashboard</a></button>
+        <button><a href="coupon_list.html">Coupon</a></button>
+    </div>
+    
+    <div class="content">
         <form method="POST">
-            <label for="userType">User Type:</label>
-            <select id="userType" name="userType" required>
-                <option value="Volunteer">Volunteer</option>
-                <option value="StoreAdmin">Store Admin</option>
-                <option value="SiteAdmin">Site Admin</option>
-            </select>
             <label for="username">Username:</label>
             <input type="text" id="username" name="Username" required>
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="Email" required>
+            
             <label for="password">Password:</label>
             <input type="password" id="password" name="Password" required>
+            
             <label for="points">Points:</label>
-            <input type="number" id="points" name="Points" min="0">
+            <input type="number" id="points" name="Points" min="0" value="0">
+            
+            <label for="storeName">Store Name (if applicable):</label>
+            <input type="text" id="storeName" name="StoreName">
+            
+            <label for="storeAddress">Store Address (if applicable):</label>
+            <input type="text" id="storeAddress" name="StoreAddress">
+
             <button type="submit">Add User</button>
         </form>
     </div>
-
-    <!-- Display User List -->
-    <h2>User List</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>UserID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['UserID'] . "</td>";
-                echo "<td>" . $row['Username'] . "</td>";
-                echo "<td>" . $row['Email'] . "</td>";
-                echo "<td>" . $row['Points'] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='4'>No users found</td></tr>";
-        }
-        ?>
-        </tbody>
-    </table>
-</div>
 </body>
 </html>
 
 <?php
+// Close the connection
 $conn->close();
 ?>
