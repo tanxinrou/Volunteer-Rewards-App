@@ -1,6 +1,6 @@
 <?php
 // Include the database connection script
-include 'dbconnect.php';
+include 'db_connect.php';
 
 // Add a store admin if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
