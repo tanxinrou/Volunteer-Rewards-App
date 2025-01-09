@@ -8,7 +8,7 @@ if (!$conn) {
 }
 
 // Retrieve users from the database
-$sql = "SELECT UserID, Username, Points, StoreName FROM users"; // Modify this based on your table structure
+$sql = "SELECT UserID, Username, Email, Points, StoreName FROM users"; // Modify this based on your table structure
 $result = $conn->query($sql);
 
 ?>
@@ -142,6 +142,7 @@ $result = $conn->query($sql);
         while ($row = $result->fetch_assoc()) {
           echo "<tr>";
           echo "<td>" . $row['Username'] . "</td>";
+          echo "<td>" . $row['Email'] . "</td>";
           echo "<td>" . $row['Points'] . "</td>";
           echo "<td><button><a href='edit_user.php?UserID=" . $row['UserID'] . "'>Edit User</a></button></td>";
           echo "</tr>";
