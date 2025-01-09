@@ -133,7 +133,6 @@ $result = $conn->query($sql);
         <th>Name</th>
         <th>Email</th>
         <th>Points</th>
-        <th>Action</th>
       </tr>
     </thead>
     <tbody id="userTable">
