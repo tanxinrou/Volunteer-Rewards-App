@@ -1,15 +1,6 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ga_rewardsapp";
-
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection script
+include 'dbconnect.php';
 
 // Add a user if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -33,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Retrieve users
 $sql = "SELECT UserID, Username, Email, Points FROM users";
 $result = $conn->query($sql);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

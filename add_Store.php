@@ -1,15 +1,6 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ga_rewardsapp";
-
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection script
+include 'dbconnect.php';
 
 // Add a store admin if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -32,8 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 // Retrieve store admins
 $sql = "SELECT StoreAdminID, StoreID, Username, Email FROM store_admins";
 $result = $conn->query($sql);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

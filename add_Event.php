@@ -1,3 +1,27 @@
+<?php
+// Include the database connection file
+require_once 'dbconnect.php';
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $eventID = $_POST['name'];
+    $eventDetails = $_POST['user'];
+    $eventPoints = $_POST['email'];
+
+    // Prepare and bind the SQL statement to insert event data
+    $stmt = $conn->prepare("INSERT INTO events (EventID, EventDetails, EventPoints) VALUES (?, ?, ?)");
+    $stmt->bind_param("ssi", $eventID, $eventDetails, $eventPoints);
+
+    if ($stmt->execute()) {
+        echo "<p>Event added successfully!</p>";
+    } else {
+        echo "<p>Error: " . $stmt->error . "</p>";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
