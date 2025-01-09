@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Management</title>
+  <title>Store Management</title>
   <style>
     body {
       margin: 0;
@@ -17,19 +17,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
       color: white;
-    }
-    .menu-icon {
-      width: 30px;
-      height: 30px;
-      background-color: white;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
     }
     .sidebar {
       background-color: #002060;
@@ -110,7 +98,6 @@
 <body>
 <div class="navbar">
   <span>User Management</span>
-  <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
   <button><a href="user_list.html">Users</a></button>
