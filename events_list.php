@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>Event Management</title>
     <style>
         body {
             margin: 0;
@@ -17,7 +17,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
             color: white;
         }
         .sidebar {
@@ -99,13 +98,12 @@
 <body>
 <div class="navbar">
     <span>User Management</span>
-    <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
-    <button><a href="user_list.html">Users</a></button>
-    <button><a href="events_list.html">Events</a></button>
-    <button><a href="stores_list.html">Stores</a></button>
-    <button><a href="adminDash.html">Dashboard</a></button>
+    <button><a href="user_list.php">Users</a></button>
+    <button><a href="events_list.php">Events</a></button>
+    <button><a href="stores_list.php">Stores</a></button>
+    <button><a href="adminDash.php">Dashboard</a></button>
     <button><a href="coupon_list.html">Coupon</a></button>
 </div>
 <div class="content">

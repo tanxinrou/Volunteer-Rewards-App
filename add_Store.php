@@ -48,15 +48,6 @@ $result = $conn->query($sql);
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
-        .navbar {
-            background-color: #002060;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: white;
-            padding: 0 20px;
-        }
         .sidebar {
             background-color: #002060;
             width: 150px;
@@ -140,10 +131,10 @@ $result = $conn->query($sql);
     <span>Store Admin Management</span>
 </div>
 <div class="sidebar">
-    <button><a href="user_list.html">Users</a></button>
-    <button><a href="events_list.html">Events</a></button>
-    <button><a href="stores_list.html">Stores</a></button>
-    <button><a href="adminDash.html">Dashboard</a></button>
+    <button><a href="user_list.php">Users</a></button>
+    <button><a href="events_list.php">Events</a></button>
+    <button><a href="stores_list.php">Stores</a></button>
+    <button><a href="adminDash.php">Dashboard</a></button>
     <button><a href="coupon_list.html">Coupon</a></button>
 </div>
 <div class="content">
