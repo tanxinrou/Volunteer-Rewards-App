@@ -18,6 +18,7 @@
       align-items: center;
       justify-content: space-between;
       color: white;
+      padding: 0 20px;
     }
     .sidebar {
       background-color: #002060;
@@ -27,18 +28,18 @@
       padding-top: 20px;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
-    .sidebar button {
-      background-color: #ffd966;
-      border: none;
+    .sidebar a {
+      display: block;
       padding: 10px;
-      width: 100%;
-      text-align: left;
-      font-size: 14px;
+      text-decoration: none;
+      color: white;
       font-weight: bold;
-      color: #002060;
       margin-bottom: 10px;
-      cursor: pointer;
-      border-radius: 0 5px 5px 0;
+      border-radius: 5px;
+      background-color: #ffd966;
+    }
+    .sidebar a:hover {
+      background-color: #ffe680;
     }
     .content {
       margin-left: 170px;
@@ -74,15 +75,11 @@
       text-align: left;
       padding: 10px;
       font-size: 14px;
+      border: 1px solid #ddd;
     }
     .table th {
       background-color: #003d99;
       color: white;
-    }
-    .table tr {
-      background-color: #003d99;
-      color: white;
-      border-bottom: 1px solid white;
     }
     .table .edit-btn {
       background-color: #ffd966;
@@ -97,65 +94,61 @@
 </head>
 <body>
 <div class="navbar">
-  <span>User Management</span>
+  <span>Store Management</span>
 </div>
 <div class="sidebar">
-  <button><a href="user_list.php">Users</a></button>
-  <button><a href="events_list.php">Events</a></button>
-  <button><a href="stores_list.php">Stores</a></button>
-  <button><a href="adminDash.php">Dashboard</a></button>
-  <button><a href="coupon_list.html">Coupon</a></button>
+  <a href="user_list.php">Users</a>
+  <a href="events_list.php">Events</a>
+  <a href="stores_list.php">Stores</a>
+  <a href="adminDash.php">Dashboard</a>
+  <a href="coupon_list.html">Coupon</a>
 </div>
 <div class="content">
   <div class="header">
     <input type="text" placeholder="Search">
-    <button><a href="add_user.php">Add User</a></button>  </div>
+    <button><a href="add_store.php" style="color: white; text-decoration: none;">Add Store</a></button>
+  </div>
   <table class="table">
     <thead>
-    <tr>
-      <th>Store ID:</th>
-      <th>Username:</th>
-      <th>Email:</th>
-      <th>Password:</th>
-      <th>Action</th>
-    </tr>
+      <tr>
+        <th>Store ID</th>
+        <th>Store Name</th>
+        <th>Store Email</th>
+        <th>Store Address</th>
+        <th>Action</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_Store.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_Store.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_Store.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_Store.html">Edit User</a></button></td>
-    </tr>
-    <tr>
-      <td>John Doe</td>
-      <td>21</td>
-      <td>johndoe@email.com</td>
-      <td>60</td>
-      <td><button><a href="edit_Store.html">Edit User</a></button></td>
-    </tr>
+      <?php
+        // Database connection
+        $conn = new mysqli('localhost', 'root', '', 'fyp');
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch stores from the database, assuming store_address is not empty
+        $sql = "SELECT StoreID, username, email, StoreAddress FROM users WHERE StoreAddress IS NOT NULL AND StoreAddress != ''";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // Output each row of store data
+            while ($row = $result->fetch_assoc()) {
+                // Correct column mapping: id, username, email, store_address
+                echo "<tr>
+                        <td>" . htmlspecialchars($row['StoreID']) . "</td>
+                        <td>" . htmlspecialchars($row['username']) . "</td>
+                        <td>" . htmlspecialchars($row['email']) . "</td>
+                        <td>" . htmlspecialchars($row['StoreAddress']) . "</td>
+                        <td><button class='edit-btn'><a href='edit_store.php?id=" . htmlspecialchars($row['StoreID']) . "' style='color: white; text-decoration: none;'>Edit</a></button></td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No stores found.</td></tr>";
+        }
+
+        // Close the database connection
+        $conn->close();
+      ?>
     </tbody>
   </table>
 </div>
