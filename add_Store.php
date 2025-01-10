@@ -10,15 +10,15 @@ if (!$conn) {
 // Add a user if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect form data
-    $username = $_POST['Username'];
+    $storeName = $_POST['StoreName'];
+    $email = $_POST['Email'];
     $passwordHash = password_hash($_POST['Password'], PASSWORD_DEFAULT); // Hash the password
-    $points = $_POST['Points'] ?? 0; // Default to 0 points if not provided
     $storeName = $_POST['StoreName'] ?? null; // If the Store Name is provided
     $storeAddress = $_POST['StoreAddress'] ?? null; // If the Store Address is provided
 
     // Prepare SQL statement to insert user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (Username, PasswordHash, Points, StoreName, StoreAddress) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $passwordHash, $points, $storeName, $storeAddress);
+    $stmt = $conn->prepare("INSERT INTO users (PasswordHash, Email, StoreName, StoreAddress) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $email, $passwordHash, $storeName, $storeAddress);
     
     // Execute the query and handle success/error
     if ($stmt->execute()) {
@@ -150,8 +150,8 @@ $result = $conn->query($sql);
     
     <div class="content">
         <form method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="Username" required>
+            <label for="storeID">Store ID:</label>
+            <input type="text" id="storeID" name="StoreID" required>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="Email" required>
