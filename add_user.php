@@ -133,7 +133,6 @@ $result = $conn->query($sql);
             border-bottom: 1px solid white;
         }
     </style>
-    </style>
 </head>
 <body>
     <div class="navbar">
@@ -150,6 +149,9 @@ $result = $conn->query($sql);
     
     <div class="content">
         <form method="POST">
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" name="UserID" required>
+
             <label for="username">Username:</label>
             <input type="text" id="username" name="Username" required>
 
