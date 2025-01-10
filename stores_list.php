@@ -21,26 +21,60 @@
       padding: 0 20px;
     }
     .sidebar {
-      background-color: #002060;
-      width: 150px;
-      height: 100vh;
-      position: fixed;
-      padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .sidebar a {
-      display: block;
-      padding: 10px;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      background-color: #ffd966;
-    }
-    .sidebar a:hover {
-      background-color: #ffe680;
-    }
+            background-color: #002060;
+            width: 150px;
+            height: 100vh;
+            position: fixed;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar a {
+            display: block;
+            background-color: #ffd966;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #002060;
+            margin-bottom: 10px;
+            text-decoration: none;
+            border-radius: 0 5px 5px 0;
+        }
+        .sidebar a:hover {
+            background-color: #f0c040;
+        }
+        .content {
+            margin-left: 170px;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input, .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background-color: #ffd966;
+            color: #002060;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
     .content {
       margin-left: 170px;
       padding: 20px;
