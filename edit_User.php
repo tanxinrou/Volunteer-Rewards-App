@@ -17,7 +17,7 @@
     <a href="events_list.php">Events</a>
     <a href="stores_list.php">Stores</a>
     <a href="adminDash.php">Dashboard</a>
-    <a href="coupon_list.php">Coupon</a>
+    <a href="coupon_list.html">Coupon</a>
 </div>
 <div class="content">
     <div class="header">Edit User Profile</div>

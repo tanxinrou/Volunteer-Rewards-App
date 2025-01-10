@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User Profile</title>
+    <title>Edit Event</title>
     <style>
         body {
             margin: 0;
@@ -103,7 +103,7 @@
 </head>
 <body>
 <div class="navbar">
-    <span>Edit User Profile</span>
+    <span>Edit Event</span>
 </div>
 <div class="sidebar">
     <a href="user_list.php">Users</a>
@@ -113,7 +113,7 @@
     <a href="coupon_list.php">Coupon</a>
 </div>
 <div class="content">
-    <div class="header">Edit User Profile</div>
+    <div class="header">Edit Event</div>
 
     <?php
     // Database connection
@@ -123,10 +123,10 @@
     }
 
     // Get user ID from URL
-    $userId = $_GET['id'];
+    $eventID = $_GET['id'];
     
     // Fetch user data
-    $sql = "SELECT * FROM users WHERE id = $userId";
+    $sql = "SELECT * FROM users WHERE id = $eventID";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -136,28 +136,28 @@
     <div class="form-container">
         <div class="form-row">
             <span>Name: <?php echo htmlspecialchars($row['name']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
+            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
         <div class="form-row">
             <span>Age: <?php echo htmlspecialchars($row['age']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
+            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
         <div class="form-row">
             <span>Email: <?php echo htmlspecialchars($row['email']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
+            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
         <div class="form-row">
             <span>Points: <?php echo htmlspecialchars($row['points']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $userId; ?>">Edit</a></button>
+            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
     </div>
 
     <div class="action-buttons">
         <button class="delete-btn">
-            <a href="delete_user.php?id=<?php echo $userId; ?>" style="color: white;">Delete User</a>
+            <a href="delete_event.php?id=<?php echo $eventID; ?>" style="color: white;">Delete Event</a>
         </button>
         <button>
-            <a href="user_list.php" style="color: white;">Finish</a>
+            <a href="events_list.php" style="color: white;">Finish</a>
         </button>
     </div>
 

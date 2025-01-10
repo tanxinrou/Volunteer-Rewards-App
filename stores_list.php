@@ -129,6 +129,7 @@
 <body>
 <div class="navbar">
   <span>Store Management</span>
+  <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
   <a href="user_list.php">Users</a>
@@ -140,7 +141,7 @@
 <div class="content">
   <div class="header">
     <input type="text" placeholder="Search">
-    <button><a href="add_store.php" style="color: white; text-decoration: none;">Add Store</a></button>
+    <button><a href="add_Store.php" style="color: white; text-decoration: none;">Add Store</a></button>
   </div>
   <table class="table">
     <thead>

@@ -3,9 +3,9 @@
 require_once 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $eventID = $_POST['name'];
-    $eventDetails = $_POST['user'];
-    $eventPoints = $_POST['email'];
+    $eventID = $_POST['id'];
+    $eventDetails = $_POST['details'];
+    $eventPoints = $_POST['points'];
 
     // Prepare and bind the SQL statement to insert event data
     $stmt = $conn->prepare("INSERT INTO events (EventID, EventDetails, EventPoints) VALUES (?, ?, ?)");
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add User</title>
+  <title>Add Event</title>
   <style>
         body {
             margin: 0;
@@ -124,35 +124,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 <div class="navbar">
-  <span>Add User</span>
+  <span>Add Event</span>
   <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
-  <a href="user_list.php">Users</a>
-  <a href="events_list.php">Events</a>
-  <a href="stores_list.php">Stores</a>
-  <a href="adminDash.php">Dashboard</a>
-  <a href="coupon_list.html">Coupon</a>
+    <a href="user_list.php">Users</a>
+    <a href="events_list.php">Events</a>
+    <a href="stores_list.php">Stores</a>
+    <a href="adminDash.php">Dashboard</a>
+    <a href="coupon_list.html">Coupon</a>
 </div>
 <div class="content">
-  <div class="header">Add User</div>
+  <div class="header">Add Event</div>
   <div class="form-container">
     <form action="#" method="POST">
       <div class="form-row">
         <label for="name">Event ID:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="eventId" name="eventId" required>
       </div>
       <div class="form-row">
         <label for="user">Event Details:</label>
-        <input type="text" id="user" name="user" required>
+        <input type="text" id="eventDetails" name="eventDetails" required>
       </div>
       <div class="form-row">
         <label for="email">Event Points:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="eventPoints" name="eventPoints" required>
       </div>
       <div class="action-buttons">
-        <button class="add">Add User</button>
-        <button><a href="events_list.html">Finish</a></button>
+        <button class="add">Add Event</button>
+        <button><a href="events_list.php">Finish</a></button>
       </div>
     </form>
   </div>

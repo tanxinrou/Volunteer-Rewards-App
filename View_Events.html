@@ -94,10 +94,9 @@
             width: 260px;
             height: 200px;
             background-color: #003d99;
-            
             margin-bottom: 20px;
         }
-        h3{
+        h3 {
             color: #E8C766;
             text-align: left;
             margin: 10px;
@@ -111,16 +110,19 @@
             font-size: 13px;
         }
         section {
-            width: 900px;
-            margin: right;
+            display: flex;
+            gap: 20px;
         }
         main {
-            flex: 1;
-            padding: 20px;
             margin: 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            justify-content: right;
+        }
+        #btn-explore {
+            background-color: #E8C766;
+            margin: 10px;
+            width: 100px;
         }
     </style>
 </head>
@@ -134,12 +136,12 @@
         </div>
         <div>
             <a class="btn me-2" style="background-color: #E8C766;" href="MyPoint.php">My Points</a>
-            <a class="btn me-2" style="background-color: #E8C766;" href="Join_Event.html">Events</a>
+            <a class="btn me-2" style="background-color: #E8C766;" href="View_Events.htmlt">Events</a>
             <a class="btn" style="background-color: #E8C766;" href="myProfile (Volunteer).html">My Profile</a>
         </div>
     </div>
   </nav>
-<div class="header">Join Event</div>
+<div class="header">View Events</div>
 <div class="navbar" id="bar">
     <div class="container">
             <div class="dropdown" style="float:left;">
@@ -216,15 +218,15 @@
             <h3>Joins Hands Singapore</h3>
                 <p>Date: 23/12/2024</p>
                 <p>Time: 1100-1700</p>
-                <p>Venue: Sentosa Cove</p>
-                <a class="btn me-2" style="background-color: #E8C766; align-items: center;">Explore</a>
+                <p>Venue: Sentosa Cove</p> 
+            <div class="btn me-2" id="btn-explore" style="background-color: #E8C766;">Explore</div>
         </article>
         <article>
             <h3>PURE Spirit</h3>
                 <p>Date: 10/01/2025</p>
                 <p>Time: 1200-1800</p>
                 <p>Venue: Tampines Ave 7</p>
-                <a class="btn me-2" style="background-color: #E8C766; align-items: center;">Explore</a>
+            <div class="btn me-2" id="btn-explore" style="background-color: #E8C766;">Explore</div>
         </article>
     </section>
 </main>
