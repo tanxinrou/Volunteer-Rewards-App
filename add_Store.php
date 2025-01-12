@@ -10,15 +10,15 @@ if (!$conn) {
 // Add a user if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect form data
-    $storeName = $_POST['StoreName'];
+    $username = $_POST['Username'];
     $email = $_POST['Email'];
     $passwordHash = password_hash($_POST['Password'], PASSWORD_DEFAULT); // Hash the password
     $storeName = $_POST['StoreName'] ?? null; // If the Store Name is provided
     $storeAddress = $_POST['StoreAddress'] ?? null; // If the Store Address is provided
 
     // Prepare SQL statement to insert user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (PasswordHash, Email, StoreName, StoreAddress) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $email, $passwordHash, $storeName, $storeAddress);
+    $stmt = $conn->prepare("INSERT INTO users (Username, PasswordHash, Email, StoreName, StoreAddress) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $passwordHash, $email, $storeName, $storeAddress);
     
     // Execute the query and handle success/error
     if ($stmt->execute()) {
@@ -133,7 +133,6 @@ $result = $conn->query($sql);
             border-bottom: 1px solid white;
         }
     </style>
-    </style>
 </head>
 <body>
     <div class="navbar">
@@ -149,24 +148,27 @@ $result = $conn->query($sql);
     </div>
     
     <div class="content">
-        <form method="POST">
-            <label for="storeID">Store ID:</label>
-            <input type="text" id="storeID" name="StoreID" required>
+        <div class="form-container">
+            <h2>Add New User</h2>
+            <form method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="Username" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="Email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="Password" required>
-            
-            <label for="storeName">Store Name (if applicable):</label>
-            <input type="text" id="storeName" name="StoreName">
-            
-            <label for="storeAddress">Store Address (if applicable):</label>
-            <input type="text" id="storeAddress" name="StoreAddress">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="Email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="Password" required>
+                
+                <label for="storeName">Store Name (if applicable):</label>
+                <input type="text" id="storeName" name="StoreName">
+                
+                <label for="storeAddress">Store Address (if applicable):</label>
+                <input type="text" id="storeAddress" name="StoreAddress">
 
-            <button type="submit">Add User</button>
-        </form>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

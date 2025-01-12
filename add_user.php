@@ -148,30 +148,30 @@ $result = $conn->query($sql);
     </div>
     
     <div class="content">
-        <form method="POST">
-            <label for="userId">User ID:</label>
-            <input type="text" id="userId" name="UserID" required>
+        <div class="form-container">
+            <h2>Add New User</h2>
+            <form method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="Username" required>
 
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="Username" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="Email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="Password" required>
+                
+                <label for="points">Points:</label>
+                <input type="number" id="points" name="Points" min="0" value="0">
+                
+                <label for="storeName">Store Name (if applicable):</label>
+                <input type="text" id="storeName" name="StoreName">
+                
+                <label for="storeAddress">Store Address (if applicable):</label>
+                <input type="text" id="storeAddress" name="StoreAddress">
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="Email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="Password" required>
-            
-            <label for="points">Points:</label>
-            <input type="number" id="points" name="Points" min="0" value="0">
-            
-            <label for="storeName">Store Name (if applicable):</label>
-            <input type="text" id="storeName" name="StoreName">
-            
-            <label for="storeAddress">Store Address (if applicable):</label>
-            <input type="text" id="storeAddress" name="StoreAddress">
-
-            <button type="submit">Add User</button>
-        </form>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
