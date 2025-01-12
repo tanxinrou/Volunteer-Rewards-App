@@ -3,9 +3,9 @@
 require_once 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $eventID = $_POST['id'];
-    $eventDetails = $_POST['details'];
-    $eventPoints = $_POST['points'];
+    $eventID = $_POST['EventID'];
+    $eventDetails = $_POST['EventDetails'];
+    $eventPoints = $_POST['EventPoints'];
 
     // Prepare and bind the SQL statement to insert event data
     $stmt = $conn->prepare("INSERT INTO events (EventID, EventDetails, EventPoints) VALUES (?, ?, ?)");
@@ -140,15 +140,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <form action="#" method="POST">
       <div class="form-row">
         <label for="name">Event ID:</label>
-        <input type="text" id="eventId" name="eventId" required>
+        <input type="text" id="EventID" name="EventID" required>
       </div>
       <div class="form-row">
         <label for="user">Event Details:</label>
-        <input type="text" id="eventDetails" name="eventDetails" required>
+        <input type="text" id="EventDetails" name="EventDetails" required>
       </div>
       <div class="form-row">
         <label for="email">Event Points:</label>
-        <input type="email" id="eventPoints" name="eventPoints" required>
+        <input type="email" id="EventPoints" name="EventPoints" required>
       </div>
       <div class="action-buttons">
         <button class="add">Add Event</button>

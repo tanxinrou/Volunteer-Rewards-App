@@ -30,6 +30,9 @@
             max-width: 1200px;
             margin: auto;
         }
+        .lg-container {
+            display: flex;
+        }
         .dropdown {
             margin: 10px;
         }
@@ -94,7 +97,7 @@
             width: 260px;
             height: 200px;
             background-color: #003d99;
-            margin-bottom: 20px;
+            margin-top: 17px;
         }
         h3 {
             color: #E8C766;
@@ -114,10 +117,9 @@
             gap: 20px;
         }
         main {
-            margin: 20px;
+            margin-left: max(0px, 175px);
+            margin-top: max(0px, 100px);
             display: flex;
-            flex-wrap: wrap;
-            justify-content: right;
         }
         #btn-explore {
             background-color: #E8C766;
@@ -187,8 +189,8 @@
     </div>
 </div>
 <input type="text" id="searchBtn" placeholder="Search">
-
-<aside class="calendar-container">
+<div class="lg-container">
+<div class="calendar-container">
     <div class="navigation">
         <button id="prevMonth">&#9664;</button>
         <h1 id="monthYear"></h1>
@@ -210,7 +212,7 @@
             <!-- Calendar rows will be inserted here by JavaScript -->
         </tbody>
     </table>
-</aside>
+</div>
 
 <main>
     <section>
@@ -230,7 +232,7 @@
         </article>
     </section>
 </main>
-    
+</div>
 </div>
 
 <script>

@@ -20,6 +20,17 @@
             padding: 0 20px;
             color: white;
         }
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #003d99;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
         .sidebar {
             background-color: #002060;
             width: 150px;
@@ -104,6 +115,7 @@
 <body>
 <div class="navbar">
     <span>Edit Event</span>
+    <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
     <a href="user_list.php">Users</a>
@@ -123,10 +135,10 @@
     }
 
     // Get user ID from URL
-    $eventID = $_GET['id'];
+    $eventID = $_GET['EventID'];
     
     // Fetch user data
-    $sql = "SELECT * FROM users WHERE id = $eventID";
+    $sql = "SELECT * FROM users WHERE EventID = $eventID";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -135,19 +147,11 @@
 
     <div class="form-container">
         <div class="form-row">
-            <span>Name: <?php echo htmlspecialchars($row['name']); ?></span>
+            <span>Event Details: <?php echo htmlspecialchars($row['EventDetails']); ?></span>
             <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
         <div class="form-row">
-            <span>Age: <?php echo htmlspecialchars($row['age']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
-        </div>
-        <div class="form-row">
-            <span>Email: <?php echo htmlspecialchars($row['email']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
-        </div>
-        <div class="form-row">
-            <span>Points: <?php echo htmlspecialchars($row['points']); ?></span>
+            <span>Event Points: <?php echo htmlspecialchars($row['EventPoints']); ?></span>
             <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
         </div>
     </div>

@@ -20,6 +20,17 @@
             padding: 0 20px;
             color: white;
         }
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #003d99;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
         .sidebar {
             background-color: #002060;
             width: 150px;
