@@ -17,7 +17,19 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 20px;
             color: white;
+        }
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #003d99;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
         }
         .sidebar {
             background-color: #002060;
@@ -97,7 +109,8 @@
 </head>
 <body>
 <div class="navbar">
-    <span>User Management</span>
+    <span>Event Management</span>
+    <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
     <button><a href="user_list.php">Users</a></button>
@@ -109,7 +122,7 @@
 <div class="content">
     <div class="header">
         <input type="text" placeholder="Search">
-        <button><a href="add_user.php">Add User</a></button>  </div>
+        <button><a href="add_Event.php">Add Event</a></button>  </div>
     <table class="table">
         <thead>
         <tr>
@@ -124,31 +137,31 @@
             <td>44356</td>
             <td>21</td>
             <td>35</td>
-            <td><button><a href="edit_Event.html">Edit User</a></button></td>
+            <td><button><a href="edit_Event.php">Edit Event</a></button></td>
         </tr>
         <tr>
             <td>22154</td>
             <td>21</td>
             <td>15</td>
-            <td><button><a href="edit_Event.html">Edit User</a></button></td>
+            <td><button><a href="edit_Event.php">Edit Event</a></button></td>
         </tr>
         <tr>
             <td>66548</td>
             <td>21</td>
             <td>25</td>
-            <td><button><a href="edit_Event.html">Edit User</a></button></td>
+            <td><button><a href="edit_Event.php">Edit Event</a></button></td>
         </tr>
         <tr>
             <td>11547</td>
             <td>21</td>
             <td>40</td>
-            <td><button><a href="edit_Event.html">Edit User</a></button></td>
+            <td><button><a href="edit_Event.php">Edit Event</a></button></td>
         </tr>
         <tr>
             <td>33657</td>
             <td>21</td>
             <td>40</td>
-            <td><button><a href="edit_Event.html">Edit User</a></button></td>
+            <td><button><a href="edit_Event.php">Edit Event</a></button></td>
         </tr>
         </tbody>
     </table>

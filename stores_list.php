@@ -20,61 +20,72 @@
       color: white;
       padding: 0 20px;
     }
+    .menu-icon {
+      width: 30px;
+      height: 30px;
+      background-color: #003d99;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
     .sidebar {
-            background-color: #002060;
-            width: 150px;
-            height: 100vh;
-            position: fixed;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .sidebar a {
-            display: block;
-            background-color: #ffd966;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #002060;
-            margin-bottom: 10px;
-            text-decoration: none;
-            border-radius: 0 5px 5px 0;
-        }
-        .sidebar a:hover {
-            background-color: #f0c040;
-        }
-        .content {
-            margin-left: 170px;
-            padding: 20px;
-        }
-        .form-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .form-container h2 {
-            margin-bottom: 20px;
-        }
-        .form-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-container input, .form-container button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-container button {
-            background-color: #ffd966;
-            color: #002060;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+      background-color: #002060;
+      width: 150px;
+      height: 100vh;
+      position: fixed;
+      padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar a {
+      display: block;
+      background-color: #ffd966;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #002060;
+      margin-bottom: 10px;
+      text-decoration: none;
+      border-radius: 0 5px 5px 0;
+    }
+    .sidebar a:hover {
+      background-color: #f0c040;
+    }
+    .content {
+      margin-left: 170px;
+      padding: 20px;
+    }
+    .form-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .form-container h2 {
+      margin-bottom: 20px;
+    }
+    .form-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-container input, .form-container button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-container button {
+      background-color: #ffd966;
+      color: #002060;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
     .content {
       margin-left: 170px;
       padding: 20px;
@@ -129,6 +140,7 @@
 <body>
 <div class="navbar">
   <span>Store Management</span>
+  <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
   <a href="user_list.php">Users</a>
@@ -140,7 +152,7 @@
 <div class="content">
   <div class="header">
     <input type="text" placeholder="Search">
-    <button><a href="add_store.php" style="color: white; text-decoration: none;">Add Store</a></button>
+    <button><a href="add_Store.php" style="color: white; text-decoration: none;">Add Store</a></button>
   </div>
   <table class="table">
     <thead>
