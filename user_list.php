@@ -7,8 +7,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Retrieve users from the database
-$sql = "SELECT UserID, Username, Email, Points, StoreName FROM users"; // Modify this based on your table structure
+// Retrieve only users from the database, filtering out any non-user data
+$sql = "SELECT UserID, Username, Email, Points FROM users"; // Modify this based on your table structure, only retrieving user-related data
 $result = $conn->query($sql);
 
 ?>
@@ -149,7 +149,7 @@ $result = $conn->query($sql);
           echo "</tr>";
         }
       } else {
-        echo "<tr><td colspan='6'>No users found</td></tr>";
+        echo "<tr><td colspan='4'>No users found</td></tr>";
       }
       ?>
     </tbody>

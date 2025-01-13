@@ -7,30 +7,28 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Add a user if the form is submitted
+// Add a store if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Collect form data
-    $username = $_POST['Username'];
-    $email = $_POST['Email'];
-    $passwordHash = password_hash($_POST['Password'], PASSWORD_DEFAULT); // Hash the password
     $storeName = $_POST['StoreName'] ?? null; // If the Store Name is provided
+    $storeEmail = $_POST['storeEmail'] ?? null; // If the Store Email is provided
     $storeAddress = $_POST['StoreAddress'] ?? null; // If the Store Address is provided
 
-    // Prepare SQL statement to insert user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (Username, PasswordHash, Email, StoreName, StoreAddress) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $passwordHash, $email, $storeName, $storeAddress);
+    // Prepare SQL statement to insert store data into the database
+    $stmt = $conn->prepare("INSERT INTO users (StoreName, storeEmail, StoreAddress) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $storeName, $storeEmail, $storeAddress);
     
     // Execute the query and handle success/error
     if ($stmt->execute()) {
-        echo "<p>User added successfully!</p>";
+        echo "<p>Store added successfully!</p>";
     } else {
         echo "<p>Error: " . $stmt->error . "</p>";
     }
     $stmt->close();
 }
 
-// Retrieve users from the database (not being used in this case but might be useful later)
-$sql = "SELECT UserID, Username, Points, StoreName FROM users";
+// Retrieve stores from the database (not being used in this case but might be useful later)
+$sql = "SELECT StoreID, StoreName, storeEmail, StoreAddress FROM users";
 $result = $conn->query($sql);
 ?>
 
@@ -39,7 +37,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>Store Management</title>
     <style>
         body {
             margin: 0;
@@ -114,29 +112,11 @@ $result = $conn->query($sql);
             cursor: pointer;
             font-weight: bold;
         }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table th, .table td {
-            text-align: left;
-            padding: 10px;
-            font-size: 14px;
-        }
-        .table th {
-            background-color: #003d99;
-            color: white;
-        }
-        .table tr {
-            background-color: #003d99;
-            color: white;
-            border-bottom: 1px solid white;
-        }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <span>User Management</span>
+        <span>Store Management</span>
     </div>
     
     <div class="sidebar">
@@ -149,24 +129,18 @@ $result = $conn->query($sql);
     
     <div class="content">
         <div class="form-container">
-            <h2>Add New User</h2>
+            <h2>Add New Store</h2>
             <form method="POST">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="Username" required>
+                <label for="storeName">Store Name:</label>
+                <input type="text" id="storeName" name="StoreName" required>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="Email" required>
+                <label for="storeEmail">Store Email:</label>
+                <input type="email" id="storeEmail" name="storeEmail" required>
                 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="Password" required>
-                
-                <label for="storeName">Store Name (if applicable):</label>
-                <input type="text" id="storeName" name="StoreName">
-                
-                <label for="storeAddress">Store Address (if applicable):</label>
-                <input type="text" id="storeAddress" name="StoreAddress">
+                <label for="storeAddress">Store Address:</label>
+                <input type="text" id="storeAddress" name="StoreAddress" required>
 
-                <button type="submit">Add User</button>
+                <button type="submit">Add Store</button>
             </form>
         </div>
     </div>
