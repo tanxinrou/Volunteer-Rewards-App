@@ -1,24 +1,31 @@
 <?php
-// Include the database connection file
-require_once 'db_connect.php';
+// Include the database connection script
+include 'db_connect.php';
 
+// Check if the connection was successful
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Add an event if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $eventID = $_POST['EventID'];
-    $eventDetails = $_POST['EventDetails'];
-    $eventPoints = $_POST['EventPoints'];
+    // Collect form data
+    $eventName = $_POST['ActivitiesName'];
+    $eventDetails = $_POST['Description'];
+    $eventPoints = $_POST['PointsRewarded'];
+    $eventDate = $_POST['ActivitiesDate'];
 
-    // Prepare and bind the SQL statement to insert event data
-    $stmt = $conn->prepare("INSERT INTO events (EventID, EventDetails, EventPoints) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $eventID, $eventDetails, $eventPoints);
+    // Prepare SQL statement to insert event data into the database
+    $stmt = $conn->prepare("INSERT INTO activities (ActivitiesName, Description, PointsRewarded, ActivitiesDate) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ss", $eventName, $eventDetails, "QRsssss", $eventPoints, $eventDate);
 
+    // Execute the query and handle success/error
     if ($stmt->execute()) {
         echo "<p>Event added successfully!</p>";
     } else {
         echo "<p>Error: " . $stmt->error . "</p>";
     }
-
     $stmt->close();
-    $conn->close();
 }
 ?>
 
@@ -123,39 +130,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </style>
 </head>
 <body>
-<div class="navbar">
-  <span>Add Event</span>
-  <div class="menu-icon">≡</div>
-</div>
-<div class="sidebar">
-    <a href="user_list.php">Users</a>
-    <a href="events_list.php">Events</a>
-    <a href="stores_list.php">Stores</a>
-    <a href="adminDash.php">Dashboard</a>
-    <a href="coupon_list.html">Coupon</a>
-</div>
-<div class="content">
-  <div class="header">Add Event</div>
-  <div class="form-container">
-    <form action="#" method="POST">
-      <div class="form-row">
-        <label for="name">Event ID:</label>
-        <input type="text" id="EventID" name="EventID" required>
-      </div>
-      <div class="form-row">
-        <label for="user">Event Details:</label>
-        <input type="text" id="EventDetails" name="EventDetails" required>
-      </div>
-      <div class="form-row">
-        <label for="email">Event Points:</label>
-        <input type="email" id="EventPoints" name="EventPoints" required>
-      </div>
-      <div class="action-buttons">
-        <button class="add">Add Event</button>
-        <button><a href="events_list.php">Finish</a></button>
-      </div>
-    </form>
-  </div>
-</div>
+    <div class="navbar">
+        <span>Add Event</span>
+        <div class="menu-icon">≡</div>
+    </div>
+
+    <div class="sidebar">
+        <button><a href="user_list.php">Users</a></button>
+        <button><a href="events_list.php">Events</a></button>
+        <button><a href="stores_list.php">Stores</a></button>
+        <button><a href="adminDash.php">Dashboard</a></button>
+        <button><a href="coupon_list.html">Coupon</a></button>
+    </div>
+
+    <div class="content">
+        <div class="form-container">
+            <h2>Add Event</h2>
+            <form method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="activitiesName" name="ActivitiesName" required>
+
+                <label for="user">Description:</label>
+                <input type="text" id="description" name="Description" required>
+
+                <label for="pointsReward">Points Reward:</label>
+                <input type="number" id="pointsRewarded" name="PointsRewarded" min="0" value="0" required>
+
+                <label for="date">Date:</label>
+                <input type="date" id="activitiesDate" name="ActivitiesDate" required>
+
+                <button class="submit">Add Event</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
+
+<?php
+// Close the connection
+$conn->close();
+?>
