@@ -9,29 +9,32 @@ if (!$conn) {
 
 // Add a store if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Collect form data
-    $storeName = $_POST['StoreName'] ?? null; // If the Store Name is provided
-    $storeEmail = $_POST['storeEmail'] ?? null; // If the Store Email is provided
-    $storeAddress = $_POST['StoreAddress'] ?? null; // If the Store Address is provided
+    $storeName = $_POST['StoreName'] ?? null;
+    $storeEmail = $_POST['storeEmail'] ?? null;
+    $storeAddress = $_POST['StoreAddress'] ?? null;
 
-    // Prepare SQL statement to insert store data into the database
-    $stmt = $conn->prepare("INSERT INTO users (StoreName, storeEmail, StoreAddress) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $storeName, $storeEmail, $storeAddress);
-    
-    // Execute the query and handle success/error
-    if ($stmt->execute()) {
-        echo "<p>Store added successfully!</p>";
+    if ($storeName && $storeEmail && $storeAddress) {
+        $stmt = $conn->prepare("INSERT INTO users (StoreName, storeEmail, StoreAddress) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $storeName, $storeEmail, $storeAddress);
+
+        if ($stmt->execute()) {
+            echo "<p>Store added successfully!</p>";
+        } else {
+            echo "<p>Error: " . $stmt->error . "</p>";
+        }
+        $stmt->close();
     } else {
-        echo "<p>Error: " . $stmt->error . "</p>";
+        echo "<p>Please provide all the required fields.</p>";
     }
-    $stmt->close();
 }
+
 
 // Retrieve stores from the database (not being used in this case but might be useful later)
 $sql = "SELECT StoreID, StoreName, storeEmail, StoreAddress FROM users";
 $result = $conn->query($sql);
 ?>
 
+<!-- HTML Form -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
