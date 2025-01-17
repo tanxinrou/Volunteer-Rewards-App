@@ -32,6 +32,7 @@ $result = $conn->query($sql);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 20px;
             color: white;
         }
         .sidebar {
@@ -133,7 +134,7 @@ $result = $conn->query($sql);
         <th>Name</th>
         <th>Email</th>
         <th>Points</th>
-        <th>Actions</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody id="userTable">

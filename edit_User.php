@@ -175,6 +175,7 @@
                 <button type="submit" name="delete">Delete User</button>
             </form>
         </div>
+
     <?php
         } else {
             echo "<p>User not found.</p>";
@@ -186,6 +187,7 @@
 
     $conn->close();
     ?>
+    
 </div>
 </body>
 </html>

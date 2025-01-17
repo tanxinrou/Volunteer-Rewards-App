@@ -129,16 +129,16 @@
 
     <?php
     // Database connection
-    $conn = new mysqli('localhost', 'root', '', 'store_db');
+    $conn = new mysqli('localhost', 'root', '', 'fyp');
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
     // Get user ID from URL
-    $eventID = $_GET['EventID'];
+    $eventID = $_GET['ActivitiesID'];
     
     // Fetch user data
-    $sql = "SELECT * FROM users WHERE EventID = $eventID";
+    $sql = "SELECT * FROM activities WHERE ActivitiesID = $eventID";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -147,18 +147,26 @@
 
     <div class="form-container">
         <div class="form-row">
-            <span>Event Details: <?php echo htmlspecialchars($row['EventDetails']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
+            <span>Name: <?php echo htmlspecialchars($row['ActivitiesName']); ?></span>
+        </div>    
+    <div class="form-row">
+            <span>Description:<br>
+            <?php echo htmlspecialchars($row['Description']); ?></span>
+            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
         </div>
         <div class="form-row">
-            <span>Event Points: <?php echo htmlspecialchars($row['EventPoints']); ?></span>
-            <button><a href="edit_user.php?id=<?php echo $eventID; ?>">Edit</a></button>
+            <span>Points Reward: <?php echo htmlspecialchars($row['PointsRewarded']); ?></span>
+            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
+        </div>
+        <div class="form-row">
+            <span>Date: <?php echo htmlspecialchars($row['ActivitiesDate']); ?></span>
+            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
         </div>
     </div>
 
     <div class="action-buttons">
         <button class="delete-btn">
-            <a href="delete_event.php?id=<?php echo $eventID; ?>" style="color: white;">Delete Event</a>
+            <a href="delete_Event.php?id=<?php echo $eventID; ?>" style="color: white;">Delete Event</a>
         </button>
         <button>
             <a href="events_list.php" style="color: white;">Finish</a>
@@ -167,7 +175,7 @@
 
     <?php
     } else {
-        echo "<p style='text-align: center;'>User not found.</p>";
+        echo "<p style='text-align: center;'>Event not found.</p>";
     }
 
     $conn->close();

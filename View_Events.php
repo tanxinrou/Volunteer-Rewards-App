@@ -1,3 +1,18 @@
+<?php
+// Include the database connection script
+include 'db_connect.php';
+
+// Check if the connection was successful
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Retrieve only activities from the database, filtering out any non-activity data
+$sql = "SELECT ActivitiesID, ActivitiesName, Description, PointsRewarded, ActivitiesDate FROM activities"; // Modify this based on your table structure, only retrieving user-related data
+$result = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,7 +137,7 @@
             margin-top: 33px;
             display: flex;
         }
-        #btn-explore {
+        main button {
             background-color: #E8C766;
             margin-left: 111px;
             width: 100px;
@@ -140,7 +155,7 @@
         </div>
         <div>
             <a class="btn me-2" style="background-color: #E8C766;" href="MyPoint.php">My Points</a>
-            <a class="btn me-2" style="background-color: #E8C766;" href="View_Events.htmlt">Events</a>
+            <a class="btn me-2" style="background-color: #E8C766;" href="View_Events.php">Events</a>
             <a class="btn" style="background-color: #E8C766;" href="myProfile (Volunteer).html">My Profile</a>
         </div>
     </div>
@@ -218,20 +233,21 @@
 
 <main>
     <section>
-        <article>
-            <h3>Joins Hands Singapore</h3>
-                <p>Date: 23/12/2024</p>
-                <p>Time: 1100-1700</p>
-                <p>Venue: Sentosa Cove</p> 
-            <div class="btn me-2" id="btn-explore" style="background-color: #E8C766;">Explore</div>
-        </article>
-        <article>
-            <h3>PURE Spirit</h3>
-                <p>Date: 10/01/2025</p>
-                <p>Time: 1200-1800</p>
-                <p>Venue: Tampines Ave 7</p>
-            <div class="btn me-2" id="btn-explore" style="background-color: #E8C766;">Explore</div>
-        </article>
+            <?php
+                if ($result->num_rows > 0) {
+                // Output user data
+                while ($row = $result->fetch_assoc()) {
+                    echo "<article>";
+                    echo "<h3>" . $row['ActivitiesName'] . "</h3>";
+                    echo "<p>" . $row['Description'] . "</p>";
+                    echo "<p>" . $row['ActivitiesDate'] . "</p>";
+                    echo "<td><button><a href='explore_Event.php?ActivitiesID=" . $row['ActivitiesID'] . "'>Explore</a></button></td>";
+                    echo "</article>";
+                }
+                } else {
+                    echo "<tr><td colspan='4'>No events found</td></tr>";
+                }
+            ?>
     </section>
 </main>
 </div>
