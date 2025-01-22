@@ -146,7 +146,7 @@ $result = $conn->query($sql);
           echo "<td>" . $row['Username'] . "</td>";
           echo "<td>" . $row['Email'] . "</td>";
           echo "<td>" . $row['Points'] . "</td>";
-          echo "<td><button><a href='edit_User.php?UserID=" . $row['UserID'] . "'>Edit User</a></button></td>";
+          echo "<td><button><a href='edit_User.php?username=" . urlencode($row['Username']) . "'>Edit User</a></button></td>";
           echo "</tr>";
         }
       } else {
