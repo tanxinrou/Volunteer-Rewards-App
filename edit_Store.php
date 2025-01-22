@@ -2,14 +2,14 @@
 // Include your database connection
 include 'db_connect.php';
 
-// Get the store_id from the URL
-$store_id = isset($_GET['store_id']) ? filter_var($_GET['store_id'], FILTER_VALIDATE_INT) : null;
+// Get the store_name from the URL
+$store_name = isset($_GET['store_name']) ? filter_var($_GET['store_name'], FILTER_SANITIZE_STRING) : null;
 
-if ($store_id) {
-    // Fetch the store details if store_id is available
-    $sql = "SELECT * FROM users WHERE StoreID = ?";
+if ($store_name) {
+    // Fetch the store details if store_name is available
+    $sql = "SELECT * FROM users WHERE StoreName = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $store_id);
+    $stmt->bind_param('s', $store_name);
     $stmt->execute();
     $result = $stmt->get_result();
     $store = $result->fetch_assoc();
@@ -19,7 +19,7 @@ if ($store_id) {
         exit;
     }
 } else {
-    echo "Store ID is missing or invalid!";
+    echo "Store name is missing or invalid!";
     exit;
 }
 
@@ -33,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $storeAddress = $_POST['storeAddress'];
 
         // SQL query to update store details
-        $sql = "UPDATE users SET StoreName = ?, storeEmail = ?, PasswordHash = ?, StoreAddress = ? WHERE StoreID = ?";
+        $sql = "UPDATE users SET StoreName = ?, storeEmail = ?, PasswordHash = ?, StoreAddress = ? WHERE StoreName = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssssi', $storeName, $storeEmail, $passwordHash, $storeAddress, $store_id);
+        $stmt->bind_param('sssss', $storeName, $storeEmail, $passwordHash, $storeAddress, $store_name);
         $stmt->execute();
 
         echo "Store updated successfully!";
@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Delete functionality
     if (isset($_POST['delete'])) {
         // SQL query to delete store
-        $sql = "DELETE FROM users WHERE StoreID = ?";
+        $sql = "DELETE FROM users WHERE StoreName = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('i', $store_id);
+        $stmt->bind_param('s', $store_name);
         $stmt->execute();
 
         echo "Store deleted successfully!";
@@ -65,74 +65,82 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Edit Store Profile</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
         }
         .navbar {
-            background-color: #333;
+            background-color: #002060;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
             color: white;
-            padding: 1rem;
-            text-align: center;
         }
         .sidebar {
-            width: 200px;
+            background-color: #002060;
+            width: 150px;
+            height: 100vh;
             position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #f4f4f4;
-            height: 100%;
-            padding-top: 2rem;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
         .sidebar a {
             display: block;
-            color: #333;
+            background-color: #ffd966;
             padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #002060;
+            margin-bottom: 10px;
             text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #ddd;
+            border-radius: 0 5px 5px 0;
         }
         .content {
-            margin-left: 220px;
+            margin-left: 170px;
             padding: 20px;
-        }
-        .header {
-            font-size: 24px;
-            margin-bottom: 20px;
         }
         .form-container {
-            max-width: 500px;
-            background: #f9f9f9;
+            background-color: #003d99;
+            color: white;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
+            width: 50%;
+            margin: auto;
         }
         .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
         }
-        .form-row label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-row input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+        .form-row button {
+            background-color: #ffd966;
+            color: #002060;
+            border: none;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
         }
         .action-buttons {
-            text-align: right;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
         }
         .action-buttons button {
-            background-color: #4CAF50;
+            background-color: #ffd966;
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px;
+            font-size: 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .action-buttons button:hover {
-            background-color: #45a049;
+        .action-buttons .delete-btn {
+            background-color: red;
         }
     </style>
 </head>
@@ -151,36 +159,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="header">Edit Store Profile</div>
 
     <form method="POST">
-        <div class="form-container">
-            <div class="form-row">
-                <label for="store_name">Store Name:</label>
-                <input type="text" name="store_name" value="<?php echo htmlspecialchars($store['StoreName']); ?>" required>
-            </div>
-
-            <div class="form-row">
-                <label for="storeEmail">Store Email:</label>
-                <input type="email" name="storeEmail" value="<?php echo htmlspecialchars($store['storeEmail']); ?>" required>
-            </div>
-
-            <div class="form-row">
-                <label for="password">Password:</label>
-                <input type="password" name="password" placeholder="Enter new password" required>
-            </div>
-
-            <div class="form-row">
-                <label for="storeAddress">Store Address:</label>
-                <input type="text" name="storeAddress" value="<?php echo htmlspecialchars($store['StoreAddress']); ?>" required>
-            </div>
-
-            <div class="action-buttons">
-                <button type="submit">Update Store</button>
-                <button type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this store?');">Delete Store</button>
-            </div>
+    <div class="form-container">
+        <div class="form-row">
+            <label for="store_name">Store Name:</label>
+            <input type="text" name="store_name" value="<?php echo htmlspecialchars($store['StoreName']); ?>" required>
         </div>
-    </form>
+
+        <div class="form-row">
+            <label for="storeEmail">Store Email:</label>
+            <input type="email" name="storeEmail" value="<?php echo htmlspecialchars($store['storeEmail']); ?>" required>
+        </div>
+
+        <div class="form-row">
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Enter new password" required>
+        </div>
+
+        <div class="form-row">
+            <label for="storeAddress">Store Address:</label>
+            <input type="text" name="storeAddress" value="<?php echo htmlspecialchars($store['StoreAddress']); ?>" required>
+        </div>
+
+        <div class="action-buttons">
+            <button type="submit">Update Store</button>
+            <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Are you sure you want to delete this store?');">Delete Store</button>
+        </div>
+    </div>
+</form>
 
     <br><br>
-    <a href="store_list.php">Back to Store List</a>
+    <a href="stores_list.php">Back to Store List</a>
 </div>
 </body>
 </html>

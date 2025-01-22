@@ -157,7 +157,6 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Store ID</th>
         <th>Store Name</th>
         <th>Store Email</th>
         <th>Store Address</th>
@@ -173,32 +172,27 @@
         }
 
         // Fetch stores from the database
-        // Assume stores are identified by a non-null StoreName (adjust as necessary)
-        $sql = "SELECT StoreID, StoreName, StoreEmail, StoreAddress FROM users WHERE StoreName IS NOT NULL";
+        $sql = "SELECT StoreName, StoreEmail, StoreAddress FROM users WHERE StoreName IS NOT NULL";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             // Output each row of store data
             while ($row = $result->fetch_assoc()) {
-                // If a field is empty, replace it with a placeholder "N/A"
                 $storeName = !empty($row['StoreName']) ? htmlspecialchars($row['StoreName']) : 'N/A';
                 $storeEmail = !empty($row['StoreEmail']) ? htmlspecialchars($row['StoreEmail']) : 'N/A';
                 $storeAddress = !empty($row['StoreAddress']) ? htmlspecialchars($row['StoreAddress']) : 'N/A';
 
-                // Output store data in table
                 echo "<tr>
-                        <td>" . htmlspecialchars($row['StoreID']) . "</td>
                         <td>" . $storeName . "</td>
                         <td>" . $storeEmail . "</td>
                         <td>" . $storeAddress . "</td>
-                        <td><button class='edit-btn'><a href='edit_store.php?id=" . htmlspecialchars($row['StoreID']) . "' style='color: white; text-decoration: none;'>Edit</a></button></td>
+                        <td><button class='edit-btn'><a href='edit_store.php?store_name=" . urlencode($row['StoreName']) . "' style='color: white; text-decoration: none;'>Edit</a></button></td>
                       </tr>";
             }
         } else {
-            echo "<tr><td colspan='5'>No stores found.</td></tr>";
+            echo "<tr><td colspan='4'>No stores found.</td></tr>";
         }
 
-        // Close the database connection
         $conn->close();
       ?>
     </tbody>
