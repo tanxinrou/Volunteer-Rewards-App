@@ -1,11 +1,14 @@
-<?php
-include 'db_connect.php';  
+<?php 
+include "db_connect.php";
+
+// Initialize the array to hold coupon data
+$arrContent = array();
 
 $query = "SELECT * FROM coupon";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
-if(!$result) {
-    die("Error fetching coupons: " . mysqli_error($conn));
+while($row = mysqli_fetch_array($result)){
+    $arrContent[] = $row; // Populate the array with rows from the result
 }
 ?>
 
@@ -27,10 +30,6 @@ if(!$result) {
         .navbar a {
             color: white;
             text-decoration: none;
-        }
-        .header-section {
-            text-align: center;
-            margin-top: 20px;
         }
         .reward-section, .qr-section {
             background-color: #f8d775;
@@ -59,70 +58,61 @@ if(!$result) {
     </style>
 </head>
 <body>
-<!-- Navbar -->
-<?php include "navbar.php"; ?>
-
-<!-- Main Content -->
-<div class="container mt-4">
-    <!-- Rewards and QR -->
-    <div class="row align-items-stretch">
-        <div class="col-md-6">
-            <div class="reward-section h-100 d-flex flex-column justify-content-center">
-                <h4>Rewards Points</h4>
-                <p class="fs-3">0.00</p>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="qr-section h-100 d-flex flex-column justify-content-center align-items-center">
-                <h4>Scan QR</h4>
-                <img src="ScanMeQR.png" alt="QR Code" class="img-fluid" style="width: 100px; height: 100px;"> <!-- Reduced size QR code, centered -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Coupons Section -->
-    <div class="coupon-section">
-        <h4>Coupons:</h4>
-        <div class="row">
-            <?php while($coupon = mysqli_fetch_assoc($result)): ?>
-            <div class="col-md-4">
-                <div class="coupon-card" data-bs-toggle="modal" data-bs-target="#couponModal">
-                    <img src="images/<?php echo $coupon['Image']; ?>" alt="<?php echo $coupon['couponTitle']; ?>"> <!-- Display coupon image -->
-                    <div class="card-body">
-                        <p><?php echo $coupon['couponTitle']; ?></p>
-                        <p><?php echo $coupon['pointsRequired']; ?> Reward Points</p>
-                    </div>
+    <!-- Navbar -->
+    <?php include "navbar.php"; ?>
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row align-items-stretch">
+            <div class="col-md-6">
+                <div class="reward-section h-100 d-flex flex-column justify-content-center">
+                    <h4>Rewards Points</h4>
+                    <p class="fs-3">0.00</p>
                 </div>
             </div>
-            <?php endwhile; ?>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="couponModalLabel">Coupon Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6 class="form-control" rows="4" placeholder="Enter description here..."></h6>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Redeem</button>
+            <div class="col-md-6">
+                <div class="qr-section h-100 d-flex flex-column justify-content-center align-items-center">
+                    <h4>Scan QR</h4>
+                    <!-- Wrap the QR image with a link to the scanning page -->
+                    <a href="scan_page.php">
+                        <img src="ScanMeQR.png" alt="QR Code" class="img-fluid" style="width: 100px; height: 100px;">
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="container mt-5">
+            <h3>Coupons</h3>
+            <div class="row">
+                <?php
+                for ($i = 0; $i < count($arrContent); $i++) {
+                    $id = $arrContent[$i]['couponId'];
+                    $title = $arrContent[$i]['couponTitle'];
+                    $description = $arrContent[$i]['couponDescription'];
+                    $image = $arrContent[$i]['Image'];
+                    $pointsrequired = $arrContent[$i]['pointsRequired'];
+                    $quantityIssued = $arrContent[$i]['quantityIssued'];
+                    $quantityRemaining = $arrContent[$i]['quantityRemaining'];
+
+                    if ($image == "none") {
+                        $image = "none.jpg"; // Default image if none is provided
+                    }
+                ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-light bg-dark">
+                            <img class="card-img-top" src="Images/<?php echo $image; ?>" alt="Card image">
+                            <div class="card-body">
+                                <h4 class="card-title"><?php echo $title ?></h4>
+                                <p class="card-text"><?php echo $description ?></p>
+                                <p class="card-text">Points Required: <?php echo $pointsrequired ?></p>
+                                <p class="card-text">Remaining: <?php echo $quantityRemaining ?> left</p>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+
+    </div>
+
 </body>
 </html>
-
-<?php
-// Close the database connection
-mysqli_close($conn);
-?>
