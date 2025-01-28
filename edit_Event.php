@@ -75,6 +75,22 @@
             width: 50%;
             margin: auto;
         }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #description {
+            width: 267%;
+        }
+        #pointsRewarded {
+            width: 55%;
+        }
+        #activitiesDate {
+            width: 80%;
+        }
         .form-row {
             display: flex;
             justify-content: space-between;
@@ -134,10 +150,10 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Get user ID from URL
+    // Get event ID from URL
     $eventID = $_GET['ActivitiesID'];
     
-    // Fetch user data
+    // Fetch event data
     $sql = "SELECT * FROM activities WHERE ActivitiesID = $eventID";
     $result = $conn->query($sql);
 
@@ -146,31 +162,38 @@
     ?>
 
     <div class="form-container">
-        <div class="form-row">
-            <span>Name: <?php echo htmlspecialchars($row['ActivitiesName']); ?></span>
-        </div>    
-    <div class="form-row">
-            <span>Description:<br>
-            <?php echo htmlspecialchars($row['Description']); ?></span>
-            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
-        </div>
-        <div class="form-row">
-            <span>Points Reward: <?php echo htmlspecialchars($row['PointsRewarded']); ?></span>
-            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
-        </div>
-        <div class="form-row">
-            <span>Date: <?php echo htmlspecialchars($row['ActivitiesDate']); ?></span>
-            <button><a href="edit_Event.php?ActivitiesID=<?php echo $eventID; ?>">Edit</a></button>
-        </div>
-    </div>
+        <form method="POST" action="edit_Event.php">
+            <div class="form-row">
+                <span><label for="name">Name:</label>
+                <?php echo htmlspecialchars($row['ActivitiesName']); ?></span>
+            </div>
 
-    <div class="action-buttons">
-        <button class="delete-btn">
-            <a href="delete_Event.php?id=<?php echo $eventID; ?>" style="color: white;">Delete Event</a>
-        </button>
-        <button>
-            <a href="events_list.php" style="color: white;">Finish</a>
-        </button>
+            <div class="form-row">
+                <span><label for="description">Description:</label>
+                <input type="text" id="description" name="Description" value="<?php echo htmlspecialchars($row['Description']); ?>" required></span>
+            </div>
+
+            <div class="form-row">
+                <span><label for="description">Points Reward:</label><br>
+                <input type="number" id="pointsRewarded" name="PointsRewarded" value="<?php echo htmlspecialchars($row['PointsRewarded']); ?>" required></span>
+            </div>
+
+            <div class="form-row">
+                <span><label for="activitiesDate">Date:</label><br>
+                <input type="date" id="activitiesDate" name="ActivitiesDate" value="<?php echo htmlspecialchars($row['ActivitiesDate']); ?>" required></span>
+            </div>
+
+            <div class="action-buttons">
+                <button type="submit" name="updateEvent">Update Event</button>
+            </div>
+        </form>
+
+        <div class="action-buttons">
+            <form method="POST" action="edit_Event.php" onsubmit="return confirm('Are you sure you want to delete this event?')">
+                <input type="hidden" name="activitiesID" value="<?php echo htmlspecialchars($eventID); ?>">
+                <button type="submit" name="deleteEvent">Delete Event</button>
+            </form>
+        </div>
     </div>
 
     <?php

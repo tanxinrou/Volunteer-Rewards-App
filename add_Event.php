@@ -147,19 +147,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="form-container">
             <h2>Add Event</h2>
             <form method="POST">
-                <label for="name">Name:</label>
+                <label for="activitiesName">Name:</label>
                 <input type="text" id="activitiesName" name="ActivitiesName" required>
 
-                <label for="user">Description:</label>
+                <label for="description">Description:</label>
                 <input type="text" id="description" name="Description" required>
 
                 <label for="pointsReward">Points Reward:</label>
                 <input type="number" id="pointsRewarded" name="PointsRewarded" min="0" value="0" required>
 
-                <label for="date">Date:</label>
+                <label for="activitiesDate">Date:</label>
                 <input type="date" id="activitiesDate" name="ActivitiesDate" required>
 
-                <button class="submit">Add Event</button>
+                <button type="submit">Add Event</button>
             </form>
         </div>
     </div>
