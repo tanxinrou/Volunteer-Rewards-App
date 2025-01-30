@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <div class="content">
         <div class="form-container">
-            <h2>Add Event</h2>
+            <h2>Add New Event</h2>
             <form method="POST">
                 <label for="activitiesName">Name:</label>
                 <input type="text" id="activitiesName" name="ActivitiesName" required>

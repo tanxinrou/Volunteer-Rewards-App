@@ -1,16 +1,12 @@
 <?php
-// Include the database connection script
 include 'db_connect.php';
 
-// Check if the connection was successful
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Retrieve only activities from the database, filtering out any non-activity data
-$sql = "SELECT ActivitiesID, ActivitiesName, Description, PointsRewarded, ActivitiesDate FROM activities"; // Modify this based on your table structure, only retrieving user-related data
+$sql = "SELECT ActivitiesID, ActivitiesName, Description, PointsRewarded, ActivitiesDate FROM activities";
 $result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -137,7 +133,9 @@ $result = $conn->query($sql);
 <div class="content">
     <div class="header">
         <input type="text" placeholder="Search">
-        <button><a href="add_Event.php">Add Event</a></button>  </div>
+        <button><a href="add_Event.php">Add Event</a></button> 
+    </div>
+
     <table class="table">
         <thead>
         <tr>
@@ -150,23 +148,27 @@ $result = $conn->query($sql);
         </thead>
         <tbody>
         <?php
-      if ($result->num_rows > 0) {
-        // Output user data
-        while ($row = $result->fetch_assoc()) {
-          echo "<tr>";
-          echo "<td>" . $row['ActivitiesName'] . "</td>";
-          echo "<td>" . $row['Description'] . "</td>";
-          echo "<td>" . $row['PointsRewarded'] . "</td>";
-          echo "<td>" . $row['ActivitiesDate'] . "</td>";
-          echo "<td><button><a href='edit_Event.php?ActivitiesID=" . $row['ActivitiesID'] . "'>Edit Event</a></button></td>";
-          echo "</tr>";
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['ActivitiesName']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['Description']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['PointsRewarded']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['ActivitiesDate']) . "</td>";
+                echo "<td><button><a href='edit_Event.php?ActivitiesID=" . $row['ActivitiesID'] . "'>Edit Event</a></button></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>No events found</td></tr>";
         }
-      } else {
-        echo "<tr><td colspan='4'>No events found</td></tr>";
-      }
-      ?>
+        ?>
         </tbody>
     </table>
 </div>
+
+<?php
+$conn->close();
+?>
+
 </body>
 </html>

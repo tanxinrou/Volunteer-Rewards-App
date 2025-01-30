@@ -1,3 +1,61 @@
+<?php
+    // Database connection
+    $conn = new mysqli('localhost', 'root', '', 'fyp');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['updateEvent'];
+    
+        if (isset($_POST['updateEvent'])) {
+            $eventName = $_POST['ActivitiesName'];
+            $eventDetails = $_POST['Description'];
+            $eventPoints = $_POST['PointsRewarded'];
+            $eventDate = $_POST['ActivitiesDate'];
+    
+            $updateSql = "UPDATE activities SET Description = ?, PointsRewarded = ?, ActivitiesDate = ? WHERE ActivitiesName = ?";
+            $stmt = $conn->prepare($updateSql);
+
+            $stmt->bind_param("ss", $eventName, $eventDetails, "QRsssss", $eventPoints, $eventDate);
+
+            if ($stmt->execute()) {
+
+                header("Location: events_list.php");
+                exit();
+            } else {
+                echo "<p>Error updating event: " . $stmt->error . "</p>";
+            }
+            $stmt->close();
+        } elseif (isset($_POST['deleteEvent'])) {
+            $deleteSql = "DELETE FROM activities WHERE ActivitiesName = ?";
+            $stmt = $conn->prepare($deleteSql);
+            $stmt->bind_param("s", $eventName);
+    
+            if ($stmt->execute()) {
+                echo "<p>Event deleted successfully.</p>";
+                echo '<a href="events_list.php">Back to Event List</a>';
+                $stmt->close();
+                $conn->close();
+                exit;
+            } else {
+                echo "<p>Error deleting event: " . $stmt->error . "</p>";
+            }
+            $stmt->close();
+        }
+    }
+
+    // Get event ID from URL
+    $eventID = $_GET['ActivitiesID'];
+    
+    // Fetch event data
+    $sql = "SELECT * FROM activities WHERE ActivitiesID = $eventID";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,25 +200,6 @@
 </div>
 <div class="content">
     <div class="header">Edit Event</div>
-
-    <?php
-    // Database connection
-    $conn = new mysqli('localhost', 'root', '', 'fyp');
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Get event ID from URL
-    $eventID = $_GET['ActivitiesID'];
-    
-    // Fetch event data
-    $sql = "SELECT * FROM activities WHERE ActivitiesID = $eventID";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-    ?>
-
     <div class="form-container">
         <form method="POST" action="edit_Event.php">
             <div class="form-row">
