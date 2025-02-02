@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Prepare SQL statement to insert event data into the database
     $stmt = $conn->prepare("INSERT INTO activities (ActivitiesName, Description, PointsRewarded, ActivitiesDate) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ss", $eventName, $eventDetails, "QRsssss", $eventPoints, $eventDate);
+    $stmt->bind_param("ssis", $eventName, $eventDetails, $eventPoints, $eventDate);
 
     // Execute the query and handle success/error
     if ($stmt->execute()) {

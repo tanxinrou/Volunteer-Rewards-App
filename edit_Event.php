@@ -6,55 +6,58 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['updateEvent'];
+        $eventName = $_POST['ActivitiesName'];
     
         if (isset($_POST['updateEvent'])) {
-            $eventName = $_POST['ActivitiesName'];
             $eventDetails = $_POST['Description'];
             $eventPoints = $_POST['PointsRewarded'];
             $eventDate = $_POST['ActivitiesDate'];
     
             $updateSql = "UPDATE activities SET Description = ?, PointsRewarded = ?, ActivitiesDate = ? WHERE ActivitiesName = ?";
             $stmt = $conn->prepare($updateSql);
-
-            $stmt->bind_param("ss", $eventName, $eventDetails, "QRsssss", $eventPoints, $eventDate);
-
+            $stmt->bind_param("ssis", $eventName, $eventDetails, $eventPoints, $eventDate);
+            
             if ($stmt->execute()) {
-
                 header("Location: events_list.php");
                 exit();
             } else {
                 echo "<p>Error updating event: " . $stmt->error . "</p>";
             }
             $stmt->close();
-        } elseif (isset($_POST['deleteEvent'])) {
-            $deleteSql = "DELETE FROM activities WHERE ActivitiesName = ?";
-            $stmt = $conn->prepare($deleteSql);
-            $stmt->bind_param("s", $eventName);
-    
-            if ($stmt->execute()) {
-                echo "<p>Event deleted successfully.</p>";
-                echo '<a href="events_list.php">Back to Event List</a>';
-                $stmt->close();
-                $conn->close();
-                exit;
-            } else {
-                echo "<p>Error deleting event: " . $stmt->error . "</p>";
             }
-            $stmt->close();
-        }
-    }
-
-    // Get event ID from URL
-    $eventID = $_GET['ActivitiesID'];
-    
-    // Fetch event data
-    $sql = "SELECT * FROM activities WHERE ActivitiesID = $eventID";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-?>
+            
+            // Prepare SQL statement to delete event
+            if (isset($_POST['deleteEvent'])) {
+                $deleteSql = "DELETE FROM activities WHERE ActivitiesName = ?";
+                $stmt = $conn->prepare($deleteSql);
+                $stmt->bind_param("s", $eventName);
+            
+                if ($stmt->execute()) {
+                    echo "<p>Event deleted successfully.</p>";
+                    echo '<a href="events_list.php">Back to Event List</a>';
+                    $stmt->close();
+                    $conn->close();
+                    exit;
+                } else {
+                    echo "<p>Error deleting event: " . $stmt->error . "</p>";
+                }
+                $stmt->close();
+            }
+            
+            // Get event ID from URL
+            $eventID = $_GET['ActivitiesID'];
+            
+            // Fetch event data using prepared statement
+            $sql = "SELECT * FROM activities WHERE ActivitiesID = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $eventID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+            }
+            ?>
 
 <!DOCTYPE html>
 <html lang="en">
