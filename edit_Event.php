@@ -222,22 +222,22 @@
         <form method="POST" action="edit_Event.php">
             <div class="form-row">
                 <span><label for="name">Name:</label>
-                <?php echo htmlspecialchars($row['ActivitiesName']); ?></span>
+                <?php echo htmlspecialchars($eventName); ?></span>
             </div>
 
             <div class="form-row">
                 <span><label for="description">Description:</label>
-                <input type="text" id="description" name="Description" value="<?php echo htmlspecialchars($row['Description']); ?>" required></span>
+                <input type="text" id="description" name="Description" value="<?php echo htmlspecialchars($eventDetails); ?>" required></span>
             </div>
 
             <div class="form-row">
                 <span><label for="description">Points Reward:</label><br>
-                <input type="number" id="pointsRewarded" name="PointsRewarded" value="<?php echo htmlspecialchars($row['PointsRewarded']); ?>" required></span>
+                <input type="number" id="pointsRewarded" name="PointsRewarded" value="<?php echo htmlspecialchars($eventPoints); ?>" required></span>
             </div>
 
             <div class="form-row">
                 <span><label for="activitiesDate">Date:</label><br>
-                <input type="date" id="activitiesDate" name="ActivitiesDate" value="<?php echo htmlspecialchars($row['ActivitiesDate']); ?>" required></span>
+                <input type="date" id="activitiesDate" name="ActivitiesDate" value="<?php echo htmlspecialchars($eventDate); ?>" required></span>
             </div>
 
             <div class="action-buttons">
