@@ -1,14 +1,13 @@
 <?php 
 include "db_connect.php";
 
-// Initialize the array to hold coupon data
 $arrContent = array();
 
 $query = "SELECT * FROM coupon";
 $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
 
 while($row = mysqli_fetch_array($result)){
-    $arrContent[] = $row; // Populate the array with rows from the result
+    $arrContent[] = $row; 
 }
 ?>
 
@@ -22,14 +21,7 @@ while($row = mysqli_fetch_array($result)){
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-        .navbar {
-            background-color: #102042;
-            color: white;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
+            background-color: #f8d775;
         }
         .reward-section, .qr-section {
             background-color: #f8d775;
