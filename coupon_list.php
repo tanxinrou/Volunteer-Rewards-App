@@ -1,3 +1,14 @@
+<?php
+include 'db_connect.php';
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT couponId, couponTitle, couponDescription, storeId FROM coupon";
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,19 +28,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
             color: white;
-        }
-        .menu-icon {
-            width: 30px;
-            height: 30px;
-            background-color: #003d99;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
+            padding: 0 20px;
         }
         .sidebar {
             background-color: #002060;
@@ -39,18 +39,19 @@
             padding-top: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
-        .sidebar button {
+        .sidebar a {
+            display: block;
             background-color: #ffd966;
-            border: none;
             padding: 10px;
-            width: 100%;
-            text-align: left;
             font-size: 14px;
             font-weight: bold;
             color: #002060;
             margin-bottom: 10px;
-            cursor: pointer;
+            text-decoration: none;
             border-radius: 0 5px 5px 0;
+        }
+        .sidebar a:hover {
+            background-color: #f0c040;
         }
         .content {
             margin-left: 170px;
@@ -86,17 +87,13 @@
             text-align: left;
             padding: 10px;
             font-size: 14px;
+            border: 1px solid #ddd;
         }
         .table th {
             background-color: #003d99;
             color: white;
         }
-        .table tr {
-            background-color: #003d99;
-            color: white;
-            border-bottom: 1px solid white;
-        }
-        .table .edit-btn {
+        .edit-btn {
             background-color: #ffd966;
             color: #002060;
             padding: 5px 10px;
@@ -104,55 +101,58 @@
             border: none;
             border-radius: 3px;
             cursor: pointer;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 <div class="navbar">
     <span>Coupon Management</span>
-    <div class="menu-icon">≡</div>
 </div>
 <div class="sidebar">
-    <button><a href="user_list.php">Users</a></button>
-    <button><a href="events_list.php">Events</a></button>
-    <button><a href="stores_list.php">Stores</a></button>
-    <button><a href="adminDash.php">Dashboard</a></button>
-    <button><a href="coupon_list.html">Coupon</a></button>
+    <a href="user_list.php">Users</a>
+    <a href="events_list.php">Events</a>
+    <a href="stores_list.php">Stores</a>
+    <a href="adminDash.php">Dashboard</a>
+    <a href="coupon_list.php">Coupon</a>
 </div>
 <div class="content">
     <div class="header">
         <input type="text" placeholder="Search">
-        <button><a href="add_Coupon.html">Add Coupon</a></button>  </div>
+        <button><a href="add_Coupon.php" style="color: white; text-decoration: none;">Add Coupon</a></button>
+    </div>
+
     <table class="table">
         <thead>
         <tr>
-            <th>Store ID:</th>
-            <th>Title Of Coupon:</th>
-            <th>Description:</th>
+            <th>Store ID</th>
+            <th>Title</th>
+            <th>Description</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>BreadTalk</td>
-            <td>abc</td>
-            <td>1234</td>
-            <td><button><a href="edit_Coupon.html">Edit Coupon</a></button></td>
-        </tr>
-        <tr>
-            <td>Fairprice</td>
-            <td>abc</td>
-            <td>1234</td>
-            <td><button><a href="edit_Coupon.html">Edit Coupon</a></button></td>
-        </tr>
-        <tr>
-            <td>Donation</td>
-            <td>abc</td>
-            <td>1234/td>
-            <td><button><a href="edit_Coupon.html">Edit Coupon</a></button></td>
-        </tr>
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['storeId']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['couponTitle']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['couponDescription']) . "</td>";
+                echo "<td><a href='edit_Coupon.php?couponId=" . $row['couponId'] . "' class='edit-btn'>Edit Coupon</a></td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='4'>No coupons found</td></tr>";
+        }
+        ?>
         </tbody>
     </table>
 </div>
+
+<?php
+$conn->close();
+?>
+
 </body>
 </html>
