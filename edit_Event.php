@@ -5,18 +5,19 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $eventName = $_POST['ActivitiesName'];
     
+        // Update event
         if (isset($_POST['updateEvent'])) {
             $eventDetails = $_POST['Description'];
             $eventPoints = $_POST['PointsRewarded'];
             $eventDate = $_POST['ActivitiesDate'];
-    
+
             $updateSql = "UPDATE activities SET Description = ?, PointsRewarded = ?, ActivitiesDate = ? WHERE ActivitiesName = ?";
             $stmt = $conn->prepare($updateSql);
             $stmt->bind_param("ssis", $eventName, $eventDetails, $eventPoints, $eventDate);
-            
+    
             if ($stmt->execute()) {
                 header("Location: events_list.php");
                 exit();
@@ -24,40 +25,52 @@
                 echo "<p>Error updating event: " . $stmt->error . "</p>";
             }
             $stmt->close();
-            }
-            
-            // Prepare SQL statement to delete event
-            if (isset($_POST['deleteEvent'])) {
-                $deleteSql = "DELETE FROM activities WHERE ActivitiesName = ?";
-                $stmt = $conn->prepare($deleteSql);
-                $stmt->bind_param("s", $eventName);
-            
-                if ($stmt->execute()) {
-                    echo "<p>Event deleted successfully.</p>";
-                    echo '<a href="events_list.php">Back to Event List</a>';
-                    $stmt->close();
-                    $conn->close();
-                    exit;
-                } else {
-                    echo "<p>Error deleting event: " . $stmt->error . "</p>";
-                }
+    
+        // Delete event
+        } elseif (isset($_POST['deleteEvent'])) {
+            $deleteSql = "DELETE FROM activities WHERE ActivitiesName = ?";
+            $stmt = $conn->prepare($deleteSql);
+            $stmt->bind_param("s", $eventName);
+    
+            if ($stmt->execute()) {
+                echo "<p>Event deleted successfully.</p>";
+                echo '<a href="events_list.php">Back to Event List</a>';
                 $stmt->close();
+                $conn->close();
+                exit();
+            } else {
+                echo "<p>Error deleting event: " . $stmt->error . "</p>";
             }
-            
-            // Get event ID from URL
-            $eventID = $_GET['ActivitiesID'];
-            
-            // Fetch event data using prepared statement
-            $sql = "SELECT * FROM activities WHERE ActivitiesID = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $eventID);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-            }
-            ?>
+            $stmt->close();
+        }
+    }
+    
+    // Get event name from URL
+    if (isset($_GET['ActivitiesName'])) {
+        $eventName = $_GET['ActivitiesName'];
+    
+    // Fetch event data using prepared statement
+    $sql = "SELECT * FROM activities WHERE ActivitiesName = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $eventName);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $eventName = $row['ActivitiesName'];
+        $eventDetails = $row['Description'];
+        $eventPoints = $row['PointsRewarded'];
+        $eventDate = $row['ActivitiesDate'];
+    } else {
+        echo "<p style='color: red;'>Event not found. Please check the event.</p>";
+    }
+        $stmt->close();
+    } else {
+        echo "<p style='color: red;'>Invalid request. Event not provided.</p>";
+    }
+    $conn->close();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -203,6 +216,8 @@
 </div>
 <div class="content">
     <div class="header">Edit Event</div>
+
+    <?php if (isset($row)): ?>
     <div class="form-container">
         <form method="POST" action="edit_Event.php">
             <div class="form-row">
@@ -232,18 +247,14 @@
 
         <div class="action-buttons">
             <form method="POST" action="edit_Event.php" onsubmit="return confirm('Are you sure you want to delete this event?')">
-                <input type="hidden" name="activitiesID" value="<?php echo htmlspecialchars($eventID); ?>">
+                <input type="hidden" name="ActivitiesName" value="<?php echo htmlspecialchars($eventName); ?>">
                 <button type="submit" name="deleteEvent">Delete Event</button>
             </form>
         </div>
     </div>
 
     <?php
-    } else {
-        echo "<p style='text-align: center;'>Event not found.</p>";
-    }
-
-    $conn->close();
+    endif;
     ?>
 
 </div>
