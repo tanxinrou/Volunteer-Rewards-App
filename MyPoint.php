@@ -91,7 +91,7 @@ while($row = mysqli_fetch_array($result)){
                 ?>
                     <div class="col-md-4 mb-3">
                         <div class="card text-light bg-dark">
-                            <img class="card-img-top" src="Images/<?php echo $image; ?>" alt="Card image">
+                            <img class="card-img-top" src="<?php echo $image; ?>" alt="Card image">
                             <div class="card-body">
                                 <h4 class="card-title"><?php echo $title ?></h4>
                                 <p class="card-text"><?php echo $description ?></p>
