@@ -45,14 +45,14 @@
         }
     }
     
-    // Get event name from URL
-    if (isset($_GET['ActivitiesName'])) {
-        $eventName = $_GET['ActivitiesName'];
+    // Get event ID from URL
+    if (isset($_GET['ActivitiesID'])) {
+        $eventID = $_GET['ActivitiesID'];
     
     // Fetch event data using prepared statement
-    $sql = "SELECT * FROM activities WHERE ActivitiesName = ?";
+    $sql = "SELECT * FROM activities WHERE ActivitiesID = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $eventName);
+    $stmt->bind_param("i", $eventID);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -207,6 +207,7 @@
     <span>Edit Event</span>
     <div class="menu-icon">≡</div>
 </div>
+
 <div class="sidebar">
     <a href="user_list.php">Users</a>
     <a href="events_list.php">Events</a>
@@ -217,7 +218,7 @@
 <div class="content">
     <div class="header">Edit Event</div>
 
-    <?php if (isset($row)): ?>
+<?php if (isset($row)): ?>
     <div class="form-container">
         <form method="POST" action="edit_Event.php">
             <div class="form-row">
@@ -252,11 +253,7 @@
             </form>
         </div>
     </div>
-
-    <?php
-    endif;
-    ?>
-
+<?php endif; ?>
 </div>
 </body>
 </html>

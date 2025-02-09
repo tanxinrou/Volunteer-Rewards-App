@@ -168,6 +168,7 @@ $currentPoints = 100; // Set this to your user's actual points from the database
                     }
                 ?>
                     <div class="col-md-4 mb-3">
+<<<<<<< HEAD
                         <div class="coupon-card" onclick="redeemCoupon(<?php echo $id; ?>, '<?php echo $title; ?>', <?php echo $pointsrequired; ?>)">
                             <div class="card text-light bg-dark">
                                 <img class="card-img-top" src="Images/<?php echo $image; ?>" alt="Card image">
@@ -178,6 +179,15 @@ $currentPoints = 100; // Set this to your user's actual points from the database
                                     <p class="card-text">Remaining: <span id="remaining_<?php echo $id; ?>"><?php echo $quantityRemaining ?></span> left</p>
                                     <button id="redeemBtn_<?php echo $id; ?>" class="btn btn-warning redeem-btn" onclick="event.stopPropagation(); redeemCoupon(<?php echo $id; ?>, '<?php echo $title; ?>', <?php echo $pointsrequired; ?>)">Redeem</button>
                                 </div>
+=======
+                        <div class="card text-light bg-dark">
+                            <img class="card-img-top" src="<?php echo $image; ?>" alt="Card image">
+                            <div class="card-body">
+                                <h4 class="card-title"><?php echo $title ?></h4>
+                                <p class="card-text"><?php echo $description ?></p>
+                                <p class="card-text">Points Required: <?php echo $pointsrequired ?></p>
+                                <p class="card-text">Remaining: <?php echo $quantityRemaining ?> left</p>
+>>>>>>> 998f79654acc0932592e7bd21a57848a96c461e2
                             </div>
                         </div>
                     </div>
