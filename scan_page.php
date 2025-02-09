@@ -43,6 +43,12 @@
             margin-top: 15px;
             color: #dc3545; /* Red for errors */
         }
+        .qr-link {
+            margin-top: 15px;
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -60,8 +66,39 @@
         <div class="video-section">
             <video id="preview"></video>
             <p id="status" class="status"></p>
+            <!-- Replace the button with an anchor link -->
+            <a href="#" class="qr-link" data-bs-toggle="modal" data-bs-target="#scanIssueModal">Unable to scan the QR code?</a>
         </div>
     </div>
+
+    <!-- Modal for scanning issue -->
+    <div class="modal fade" id="scanIssueModal" tabindex="-1" aria-labelledby="scanIssueModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scanIssueModalLabel">QR Code Scan Issue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="scanIssueForm">
+                        <div class="mb-3">
+                            <label for="userId" class="form-label">User ID</label>
+                            <input type="text" class="form-control" id="userId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventId" class="form-label">Event ID</label>
+                            <input type="text" class="form-control" id="eventId" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap 5 JS and Popper for Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 
     <script>
         // Initialize scanner
@@ -89,6 +126,22 @@
         }).catch(function (error) {
             console.error('Camera access error:', error);
             statusText.textContent = `Error accessing camera: ${error.message}`;
+        });
+
+        // Handle the scan issue form submission
+        document.getElementById('scanIssueForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const userId = document.getElementById('userId').value;
+            const eventId = document.getElementById('eventId').value;
+
+            // Handle form submission (send the data to the server or process as needed)
+            console.log(`User ID: ${userId}, Event ID: ${eventId}`);
+            alert("Form submitted successfully!");
+
+            // Close the modal after submission
+            var scanIssueModal = new bootstrap.Modal(document.getElementById('scanIssueModal'));
+            scanIssueModal.hide();
         });
     </script>
 </body>
