@@ -49,8 +49,8 @@
         </div>
         <!-- Navigation Buttons -->
         <div>
-            <a class="btn btn-custom me-2" href="MyPoint.html">My Points</a>
-            <a class="btn btn-custom me-2" href="#">Events</a>
+            <a class="btn btn-custom me-2" href="MyPoint.php">My Points</a>
+            <a class="btn btn-custom me-2" href="View_Events.php">Events</a>
             <a class="btn btn-custom" href="#">My Profile</a>
         </div>
     </div>

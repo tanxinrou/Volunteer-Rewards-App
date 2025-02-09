@@ -13,10 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $couponTitle = $_POST['couponTitle'];
     $couponDescription = $_POST['couponDescription'];
     $storeId = $_POST['storeId'];
-    
+    $pointsRequired = $_POST['pointsRequired'];
+    $quantityIssued = $_POST['quantityIssued'];
+    $quantityRemaining = $_POST['quantityRemaining'];
+    $image = $_POST['image'];
+
     // Prepare SQL statement to insert coupon data into the database
-    $stmt = $conn->prepare("INSERT INTO coupon (couponTitle, couponDescription, storeId) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $couponTitle, $couponDescription, $storeId);
+    $stmt = $conn->prepare("INSERT INTO coupon (couponTitle, couponDescription, storeId, pointsRequired, quantityIssued, quantityRemaining, Image) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssiiiss", $couponTitle, $couponDescription, $storeId, $pointsRequired, $quantityIssued, $quantityRemaining, $image);
     
     // Execute the query and handle success/error
     if ($stmt->execute()) {
@@ -132,6 +136,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <label for="storeId">Store ID:</label>
                 <input type="number" id="storeId" name="storeId" required>
+
+                <label for="pointsRequired">Points Required:</label>
+                <input type="number" id="pointsRequired" name="pointsRequired" required>
+
+                <label for="quantityIssued">Quantity Issued:</label>
+                <input type="number" id="quantityIssued" name="quantityIssued" required>
+
+                <label for="quantityRemaining">Quantity Remaining:</label>
+                <input type="number" id="quantityRemaining" name="quantityRemaining" required>
+
+                <label for="image">Image Filename:</label>
+                <input type="text" id="image" name="image" required>
 
                 <button type="submit">Add Coupon</button>
             </form>
