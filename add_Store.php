@@ -127,7 +127,7 @@ $result = $conn->query($sql);
         <button><a href="events_list.php">Events</a></button>
         <button><a href="stores_list.php">Stores</a></button>
         <button><a href="adminDash.php">Dashboard</a></button>
-        <button><a href="coupon_list.html">Coupon</a></button>
+        <button><a href="coupon_list.php">Coupon</a></button>
     </div>
     
     <div class="content">
