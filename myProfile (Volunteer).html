@@ -58,21 +58,34 @@
     </div>
 </nav>
 <div class="content">
-    <br>
     <div class="form-container">
-        <div class="form-row">
-          <label for="name">Name: John Doe</label>
+        <h3>My Profile</h3>
+        <br>
+
+        <?php if ($isLoggedIn): ?>
+            <div class="form-row">
+                <label for="name">Name: <?php echo htmlspecialchars($user['name']); ?></label>
+            </div>
+            <div class="form-row">
+                <label for="age">Age: <?php echo htmlspecialchars($user['age']); ?></label>
+            </div>
+            <div class="form-row">
+                <label for="email">Email: <?php echo htmlspecialchars($user['email']); ?></label>
+            </div>
+            <div class="form-row">
+                <label for="events">No. of Events Joined: <?php echo htmlspecialchars($user['events_joined']); ?></label>
+            </div>
+        <?php else: ?>
+            <p>You are not logged in. Please log in to view your profile.</p>
+        <?php endif; ?>
+
+        <!-- ✅ Login & Logout Buttons Inside Profile Card -->
+        <div class="btn-container">
+            <a href="login.php" class="btn btn-primary">Login</a>
+            <a href="logout.php" class="btn btn-primary">Logout</a>
         </div>
-        <div class="form-row">
-          <label for="age">Age: 21</label>
-        </div>
-        <div class="form-row">
-          <label for="email">Email: johndoe@email.com</label>
-        </div>
-        <div class="form-row">
-            <label for="events">No. of Events Joined: 4</label>
-        </div>
+
     </div>
-  </div>
+</div>
 </body>
 </html>  

@@ -24,7 +24,8 @@ $currentPoints = 100; // Set this to your user's actual points from the database
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8d775;
+            background-color: #E6E6DC;
+
         }
         .reward-section, .qr-section {
             background-color: #f8d775;
