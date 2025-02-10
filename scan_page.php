@@ -1,21 +1,49 @@
+<?php
+session_start();
+include "db_connect.php"; // Ensure database connection
+
+$errorMsg = "";
+$PointsRewarded = 50; // Example points to be rewarded
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["scanned_qr"])) {
+    $scannedQR = mysqli_real_escape_string($conn, $_POST["scanned_qr"]);
+
+    // Check if QR is valid (Assume we check in a `coupons` table)
+    $query = "SELECT * FROM coupons WHERE qr_code = '$scannedQR' AND redeemed = 0";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Update coupon as redeemed and reward user
+        $updateQuery = "UPDATE users SET Points = Points + $PointsRewarded WHERE username = '{$_SESSION['username']}'";
+        mysqli_query($conn, $updateQuery);
+
+        // Mark the QR code as redeemed
+        $updateCouponQuery = "UPDATE coupons SET redeemed = 1 WHERE qr_code = '$scannedQR'";
+        mysqli_query($conn, $updateCouponQuery);
+
+        header("Location: success.php?points=$PointsRewarded");
+        exit();
+    } else {
+        $errorMsg = "⚠️ Invalid or Already Redeemed QR Code.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan QR Code</title>
-    <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Include Instascan.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa; /* Light background */
+            background-color: #f8f9fa;
         }
         .container {
+            max-width: 900px;
             margin-top: 20px;
-            max-width: 800px;
         }
         .header-section {
             background-color: #102042;
@@ -25,124 +53,124 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        .video-section {
-            background-color: #ffffff;
+        .scan-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .scan-box {
+            flex: 1;
+            background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 350px;
         }
-        video {
+        video, #qr-reader {
             border: 2px solid #102042;
             border-radius: 10px;
-            max-width: 100%;
+            width: 100%;
             height: auto;
         }
         .status {
-            margin-top: 15px;
-            color: #dc3545; /* Red for errors */
+            margin-top: 10px;
+            color: #dc3545;
         }
         .qr-link {
+            display: block;
             margin-top: 15px;
-            cursor: pointer;
+            text-align: center;
             color: #007bff;
             text-decoration: underline;
+            cursor: pointer;
+        }
+        #upload-submit {
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <!-- Include the navbar -->
     <?php include "navbar.php"; ?>
 
     <div class="container">
-        <!-- Header Section -->
         <div class="header-section">
             <h4>Scan QR Code</h4>
-            <p>Use your camera to scan a QR code and redeem your rewards!</p>
+            <p>Use your camera or upload an image to scan a QR code and redeem rewards!</p>
         </div>
 
-        <!-- Video Section -->
-        <div class="video-section">
-            <video id="preview"></video>
-            <p id="status" class="status"></p>
-            <!-- Replace the button with an anchor link -->
-            <a href="#" class="qr-link" data-bs-toggle="modal" data-bs-target="#scanIssueModal">Unable to scan the QR code?</a>
-        </div>
-    </div>
+        <div class="scan-container">
+            <!-- Live Camera QR Scanner -->
+            <div class="scan-box">
+                <h5>Scan Using Camera</h5>
+                <div id="qr-camera"></div>
+                <p id="camera-status" class="status"></p>
+            </div>
 
-    <!-- Modal for scanning issue -->
-    <div class="modal fade" id="scanIssueModal" tabindex="-1" aria-labelledby="scanIssueModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="scanIssueModalLabel">QR Code Scan Issue</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="scanIssueForm">
-                        <div class="mb-3">
-                            <label for="userId" class="form-label">User ID</label>
-                            <input type="text" class="form-control" id="userId" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventId" class="form-label">Event ID</label>
-                            <input type="text" class="form-control" id="eventId" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+            <!-- Upload QR Code -->
+            <div class="scan-box">
+                <h5>Upload QR Code</h5>
+                <input type="file" id="qr-input-file" accept="image/*" class="form-control mt-3">
+                <p id="upload-status" class="status"></p>
+                <form id="qr-upload-form" method="POST">
+                    <input type="hidden" name="scanned_qr" id="scanned_qr">
+                    <button type="submit" id="upload-submit" class="btn btn-primary w-100" disabled>Submit</button>
+                </form>
             </div>
         </div>
+
+        <!-- Unable to Scan Link -->
+        <a href="#" class="qr-link" data-bs-toggle="modal" data-bs-target="#scanIssueModal">Unable to scan the QR code?</a>
+
+        <?php if ($errorMsg): ?>
+            <div class="alert alert-danger mt-3"><?php echo $errorMsg; ?></div>
+        <?php endif; ?>
     </div>
 
-    <!-- Include Bootstrap 5 JS and Popper for Modal -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-
     <script>
-        // Initialize scanner
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-        const statusText = document.getElementById('status');
+        let scannedCode = "";
 
-        // Define the behavior when a QR code is scanned
-        scanner.addListener('scan', function (content) {
-            alert(`QR Code scanned: ${content}`);
-            // Redirect to another page based on the scanned content
-            window.location.href = `redeem_coupon.php?coupon_id=${content}`;
-        });
-
-        // Try to get cameras and start scanning
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                // Attempt to start the rear camera first
-                let rearCamera = cameras.find(camera => camera.name && camera.name.includes('back'));
-                scanner.start(rearCamera || cameras[0]);
-                statusText.textContent = ''; // Clear status message
-            } else {
-                console.error('No cameras found.');
-                statusText.textContent = 'No cameras found on this device.';
+        // Live QR Scanner
+        const html5QrCode = new Html5Qrcode("qr-camera");
+        html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            (decodedText) => {
+                alert(`✅ QR Code Scanned: ${decodedText}`);
+                document.getElementById("scanned_qr").value = decodedText;
+                document.getElementById("qr-upload-form").submit();
+            },
+            (error) => {
+                document.getElementById("camera-status").textContent = "Error scanning QR code. Try again.";
             }
-        }).catch(function (error) {
-            console.error('Camera access error:', error);
-            statusText.textContent = `Error accessing camera: ${error.message}`;
+        ).catch(err => {
+            document.getElementById("camera-status").textContent = "⚠️ Camera access error.";
         });
 
-        // Handle the scan issue form submission
-        document.getElementById('scanIssueForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        // Upload QR Code from Image
+        document.getElementById("qr-input-file").addEventListener("change", function(event) {
+            if (event.target.files.length === 0) return;
+            
+            const imageFile = event.target.files[0];
+            const qrScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
 
-            const userId = document.getElementById('userId').value;
-            const eventId = document.getElementById('eventId').value;
-
-            // Handle form submission (send the data to the server or process as needed)
-            console.log(`User ID: ${userId}, Event ID: ${eventId}`);
-            alert("Form submitted successfully!");
-
-            // Close the modal after submission
-            var scanIssueModal = new bootstrap.Modal(document.getElementById('scanIssueModal'));
-            scanIssueModal.hide();
+            html5QrCode.scanFile(imageFile, true)
+                .then(decodedText => {
+                    alert(`✅ QR Code from Image: ${decodedText}`);
+                    document.getElementById("scanned_qr").value = decodedText;
+                    document.getElementById("upload-submit").disabled = false;
+                })
+                .catch(err => {
+                    document.getElementById("upload-status").textContent = "Failed to read QR code.";
+                    document.getElementById("upload-submit").disabled = true;
+                });
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

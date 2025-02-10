@@ -1,15 +1,25 @@
 <?php
-include "db_connect.php";
+require 'db_connect.php'; // Connect to the database
 
-if (isset($_POST['couponId'])) {
-    $couponId = $_POST['couponId'];
+if (isset($_GET['coupon_id'])) {
+    $couponId = $_GET['coupon_id'];
 
-    // Update the coupon count in the database
-    $query = "UPDATE coupon SET quantityRemaining = quantityRemaining - 1 WHERE couponId = $couponId";
-    if (mysqli_query($conn, $query)) {
-        echo "Coupon redeemed successfully!";
+    // Check if the QR code is valid
+    $stmt = $link->prepare("SELECT * FROM coupons WHERE CouponCode = ?");
+    $stmt->bind_param("s", $couponId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Update the user's points
+        $PointsRewarded = 50; // Set your reward points
+        $updateStmt = $link->prepare("UPDATE users SET Points = Points + ? WHERE UserID = ?");
+        $updateStmt->bind_param("ii", $PointsRewarded, $userId);
+        $updateStmt->execute();
+
+        echo "<script>alert('✅ Coupon redeemed! You received $PointsRewarded points.'); window.location.href='dashboard.php';</script>";
     } else {
-        echo "Error redeeming coupon: " . mysqli_error($conn);
+        echo "<script>alert('❌ Invalid QR Code!'); window.location.href='scan_qr.php';</script>";
     }
 }
 ?>
